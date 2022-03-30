@@ -1,0 +1,19 @@
+
+
+/src
+/public
+/docs
+/docs-dist
+/mock
+/demo
+**/demo
+
+# config
+.editorconfig
+.fatherrc.ts
+.gitignore
+.prettierignore
+.prettierrc
+.umirc.ts
+tsconfig.json
+*.tgz
