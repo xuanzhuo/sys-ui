@@ -1,0 +1,37 @@
+.sys-two-row-layout{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    .sys-two-row-layout-top{
+        flex: 1;
+    }
+    .sys-two-row-layout-split{
+        height:10px;
+        position: relative;
+        background-color: #f3f3f3;
+        .arrow-top,
+        .arrow-bottom {
+            position: relative;
+            height: 10px;
+            width: 48px;
+            left: 50%;
+            transform: translateX(-50%);
+            cursor: pointer;
+            z-index: 1;
+        }
+        .arrow-top {
+            display: block;
+            top: -9px;
+            background: url(../img/arrow-top.png) no-repeat center center;
+        }
+        .arrow-bottom {
+            display: none;
+            top: 10px;
+            background: url(../img/arrow-bottom.png) no-repeat center center;
+        }
+        &:hover .arrow-bottom {
+            display: block;
+        }
+    }
+}
