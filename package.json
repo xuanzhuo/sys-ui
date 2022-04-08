@@ -21,6 +21,7 @@
   "typings": "dist/index.d.ts",
   "dependencies": {
     "antd": "^4.19.3",
+    "rc-resize-observer": "^1.2.0",
     "react": "^17.0.2"
   },
   "devDependencies": {
