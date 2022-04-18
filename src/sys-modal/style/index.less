@@ -1,0 +1,61 @@
+// 模态框样式调整
+.sys-modal {
+    .ant-modal-wrap {
+        background-color: rgba(55, 55, 55, 0.3);
+    }
+    .ant-modal {
+        padding-bottom: 0;
+        max-width: none;
+    }
+    .ant-modal-content {
+        border-radius: 5px;
+    }
+    .ant-modal-header {
+        background-color: #eeeeee;
+        padding: 15px 18px 14px;
+    }
+    .ant-modal-title {
+        height: 20px;
+        line-height: 20px;
+        font-weight: bold;
+        font-size: 14px;
+    }
+    .ant-modal-close-x {
+        width: 50px;
+        height: 50px;
+        line-height: 50px;
+    }
+    .ant-modal-body {
+        padding: 0;
+        font-size: 14px;
+        background-color: #f9f9f9;
+    }
+    .ant-modal-footer {
+        background-color: #f9f9f9;
+        padding: 16px 18px 16px 10px;
+    }
+    .sys-modal-draggable-bar{
+        height: 100%;
+        &:hover{
+            cursor: move;
+        }
+    }
+    .sys-modal-maximize-icon{
+        width: 20px;
+        height: 50px;
+        right: 50px;
+        cursor: pointer;
+    }
+}
+//消息提示框样式调整
+.sys-message {
+    .ant-modal-body {
+        padding: 20px 20px 0 20px;
+    }
+    .ant-modal-footer {
+        border-top: none;
+    }
+    .ant-modal {
+        top: 30%;
+    }
+}
