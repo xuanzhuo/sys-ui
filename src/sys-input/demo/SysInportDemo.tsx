@@ -1,4 +1,4 @@
-import SysInput from '../SysInput';
+import {SysInput} from 'sys-ui';
 import React from 'react';
 
 export default () => (

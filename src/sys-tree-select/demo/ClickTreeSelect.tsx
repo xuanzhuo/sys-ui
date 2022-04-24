@@ -1,6 +1,6 @@
-import SysTreeSelect from '../SysTreeSelect';
+import { SysTreeSelect } from 'sys-ui';
 import React from 'react';
-let {SHOW_PARENT} = SysTreeSelect
+let { SHOW_PARENT } = SysTreeSelect;
 const treeData = [
     {
         title: 'Node1',

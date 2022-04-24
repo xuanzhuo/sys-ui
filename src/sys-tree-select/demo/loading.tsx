@@ -1,4 +1,4 @@
-import SysTreeSelect from '../SysTreeSelect';
+import {SysTreeSelect} from 'sys-ui';
 import React from 'react';
 interface DataNode {
     value?: string | number;

@@ -1,4 +1,4 @@
-import SysTreeSelect from "../SysTreeSelect";
+import {SysTreeSelect} from "sys-ui";
 import React,{useState} from "react";
 const { TreeNode } = SysTreeSelect;
 const Demo = () => {

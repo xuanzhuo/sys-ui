@@ -1,4 +1,4 @@
-import SysSelect from '../index'
+import {SysSelect} from 'sys-ui'
 import React from 'react'
 let {Option} = SysSelect
 function handleChange(value:string) {

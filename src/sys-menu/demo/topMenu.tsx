@@ -1,4 +1,4 @@
-import SysMenu from '../index';
+import {SysMenu} from 'sys-ui';
 import { MailOutlined, AppstoreOutlined, SettingOutlined } from '@ant-design/icons';
 import { SysMenuProp } from '../interface';
 import React from 'react';
