@@ -76,6 +76,8 @@ interface TextAreaProps {
      * @default -
      */
     maxLength?: number;
+    onBlur?:  React.FocusEventHandler<HTMLElement>;
+    onFocus?:  React.FocusEventHandler<HTMLElement>;
 }
 export default function SysTextArea({ ...rest }: TextAreaProps) {
     return <TextArea {...rest}></TextArea>;

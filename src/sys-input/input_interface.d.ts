@@ -1,22 +1,28 @@
+// accept?: string | undefined;
+// alt?: string | undefined;
+// autoComplete?: string | undefined;
+// autoFocus?: boolean | undefined;
+// capture?: boolean | 'user' | 'environment' | undefined;
+// checked?: boolean | undefined;
+// crossOrigin?: string | undefined;
+// enterKeyHint?: 'enter' | 'done' | 'go' | 'next' | 'previous' | 'search' | 'send' | undefined;
+// form?: string | undefined;
+// formAction?: string | undefined;
+// formEncType?: string | undefined;
+// formMethod?: string | undefined;
+// formNoValidate?: boolean | undefined;
+// formTarget?: string | undefined;
+// height?: number | string | undefined;
+// list?: string | undefined;
+// max?: number | string | undefined;
+// min?: number | string | undefined;
+
+
 interface Props {
-    // accept?: string | undefined;
-    // alt?: string | undefined;
-    // autoComplete?: string | undefined;
-    // autoFocus?: boolean | undefined;
-    // capture?: boolean | 'user' | 'environment' | undefined;
-    // checked?: boolean | undefined;
-    // crossOrigin?: string | undefined;
-    // enterKeyHint?: 'enter' | 'done' | 'go' | 'next' | 'previous' | 'search' | 'send' | undefined;
-    // form?: string | undefined;
-    // formAction?: string | undefined;
-    // formEncType?: string | undefined;
-    // formMethod?: string | undefined;
-    // formNoValidate?: boolean | undefined;
-    // formTarget?: string | undefined;
-    // height?: number | string | undefined;
-    // list?: string | undefined;
-    // max?: number | string | undefined;
-    // min?: number | string | undefined;
+    /**
+     *@description 最小字数长度
+     *@default -
+     */
     minLength?: number | undefined;
     // multiple?: boolean | undefined;
     // name?: string | undefined;
@@ -28,7 +34,7 @@ interface Props {
     // step?: number | string | undefined;
     // width?: number | string | undefined;
 }
-export default interface SysInputProps extends Props{
+export default interface SysInputProps extends Props {
     /**
      * @description      带标签的 input，设置后置标签
      * @default           -
@@ -109,4 +115,7 @@ export default interface SysInputProps extends Props{
      * @default -
      */
     onPressEnter?: (e: any) => void;
+ 
+    onBlur?: React.FocusEventHandler<HTMLElement>;
+    onFocus?: React.FocusEventHandler<HTMLElement>;
 }
