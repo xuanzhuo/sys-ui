@@ -110,21 +110,21 @@ export interface SysMenuProp {
      * @description 点击 MenuItem 调用此函数
      * @default -
      */
-    onClick?: (info: ClickInfo) => void;
+    onClick?: MenuProps['onClick'];
     /**
      * @description 	取消选中时调用，仅在 multiple 生效
      * @default -
      */
-    onDeselect?: (info: SelectInfo) => void;
+    onDeselect?: MenuProps['onDeselect'];
     /**
      * @description 	取消选中时调用，仅在 multiple 生效
      * @default -
      */
-    onOpenChange?: (openKeys: React.Key[]) => void;
+    onOpenChange?: MenuProps['onOpenChange']
     /**
      * @description 	取消选中时调用，仅在 multiple 生效
      * @default -
      */
-    onSelect?: (info: SelectInfo) => void;
+    onSelect?: MenuProps['onSelect']
     children?: React.ReactNode;
 }

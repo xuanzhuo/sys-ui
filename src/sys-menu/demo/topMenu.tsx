@@ -27,10 +27,6 @@ const App = () => {
                     <AppstoreOutlined />
                     <span>Option 11</span>
                 </Item>
-                <Item key="22Option">
-                    <MailOutlined />
-                    <span>Option 12</span>
-                </Item>
             </SubMenu>
         </SysMenu>
     );
