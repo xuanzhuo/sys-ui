@@ -20,3 +20,6 @@ group:
 
 ### Checkbox组
   <code src="./demo/BoxGroup.tsx">
+
+## API
+ <API src="./SysCheckbox.tsx" hideTitle></API>

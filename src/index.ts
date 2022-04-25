@@ -10,4 +10,5 @@ export { default as SysMenu } from './sys-menu';
 export { default as SysInput } from './sys-input';
 export { default as SysSelect } from './sys-select';
 export { default as SysTreeSelect } from './sys-tree-select';
-export { default as SysCheckbox} from './sys-checkbox'
+export { default as SysCheckbox} from './sys-check-box'
+export { default as SysDataPicker } from './sys-data-picker'
