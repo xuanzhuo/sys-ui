@@ -1,14 +1,13 @@
-import {SysInput} from 'sys-ui';
+import {SysInput,SysIcon} from 'sys-ui';
 import React from 'react';
-import { UserOutlined } from '@ant-design/icons';
 export default () => (
     <>
-        <SysInput size="large" placeholder="large size" prefix={<UserOutlined />} />
+        <SysInput size="large" placeholder="large size" prefix={<SysIcon name="shared" />} />
         <br />
         <br />
-        <SysInput placeholder="default size" prefix={<UserOutlined />} />
+        <SysInput placeholder="default size" prefix={<SysIcon name="shared" />} />
         <br />
         <br />
-        <SysInput size="small" placeholder="small size" prefix={<UserOutlined />} />
+        <SysInput size="small" placeholder="small size" prefix={<SysIcon name="shared" />} />
     </>
 );

@@ -1,5 +1,4 @@
-import {SysMenu} from 'sys-ui';
-import { MailOutlined, AppstoreOutlined, SettingOutlined } from '@ant-design/icons';
+import {SysMenu,SysIcon} from 'sys-ui';
 import { SysMenuProp } from '../interface';
 import React from 'react';
 
@@ -15,16 +14,16 @@ const App = () => {
     return (
         <SysMenu onClick={onClick} selectedKeys={[current]} mode="horizontal">
             <Item key="1Option">
-                <AppstoreOutlined />
+                <SysIcon name="folder" />
                 <span>Option 1</span>
             </Item>
             <Item key="2Option">
-                <MailOutlined />
+                <SysIcon name='ceshi' />
                 <span>Option 2</span>
             </Item>
             <SubMenu key="3Option" title={'3Option'}>
                 <Item key="11Option">
-                    <AppstoreOutlined />
+                    <SysIcon name='jianqiewenjianjiajiedian' />
                     <span>Option 11</span>
                 </Item>
             </SubMenu>
