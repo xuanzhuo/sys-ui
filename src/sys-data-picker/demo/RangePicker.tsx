@@ -1,5 +1,5 @@
 import React from 'react';
-import SysDataPicker from '../SysDataPicker';
+import {SysDataPicker} from 'sys-ui';
 let { RangePicker } = SysDataPicker;
 function onChange<T>(values: T, datastring: [string, string]) {
     console.log(values);
