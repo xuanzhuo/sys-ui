@@ -22,6 +22,4 @@ group:
 
 <code src="./demo/DropButton.tsx">
 
-## API
-
 <API src="./SysDropdown.tsx">
