@@ -3,10 +3,11 @@ import { Menu } from 'antd';
 import { SysMenuProp } from './interface';
 // import SysMenuItem from './SysMenuItem';
 // import SysMenuSub from './SysMenuSub';
-let {Item,SubMenu} = Menu
+let {Item,SubMenu,ItemGroup} = Menu
 function SysMenu({ children, ...rest }: SysMenuProp) {
     return <Menu {...rest}>{children}</Menu>;
 }
 SysMenu.Item = Item;
 SysMenu.SubMenu = SubMenu;
+SysMenu.ItemGroup = ItemGroup
 export default SysMenu;
