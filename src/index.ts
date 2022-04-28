@@ -16,3 +16,7 @@ export { default as SysDropdown } from './sys-dropdown';
 export { default as SysButton } from './sys-button';
 export { default as SysTransfer} from './sys-transfer' 
 // export { SysTransferItem, SysTransferProps } from './sys-transfer/interface'
+export { default as SysTable } from './sys-table';
+export type {SysTableProps,SysTableColumnType} from './sys-table';
+export { default as SysTreeTable } from './sys-tree-table';
+export type {SysTreeTableProps,SysTreeTableColumn} from './sys-tree-table';
