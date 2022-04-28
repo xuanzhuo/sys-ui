@@ -13,3 +13,4 @@ export { default as SysTreeSelect } from './sys-tree-select';
 export { default as SysCheckbox } from './sys-check-box';
 export { default as SysDataPicker } from './sys-data-picker';
 export { default as SysDropdown } from './sys-dropdown';
+export { default as SysButton } from './sys-button';
