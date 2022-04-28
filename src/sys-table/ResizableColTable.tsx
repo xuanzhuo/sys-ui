@@ -1,3 +1,7 @@
+/**
+ * 列宽拖拽表格
+ * @author sizz 2022-04-25
+ */
 import React, { useRef, useState, useEffect } from 'react';
 import { Resizable, ResizeCallbackData } from 'react-resizable';
 import SysTable, { SysTableProps, SysTableColumnType } from './SysTable';
