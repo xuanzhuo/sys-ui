@@ -1,12 +1,16 @@
 import React from 'react';
 import { SysButton } from 'sys-ui';
 
+
 function dropdown() {
+    function click({key}:{key:string}){
+        console.log(key)
+    }
     return (
         <div>
             <div>
                 常用：
-                <SysButton.Dropdown icon="edit" title="编辑">
+                <SysButton.Dropdown icon="edit" title="编辑" onItemClick={click}>
                     {[{ title: '选项一' }, { title: '选项二' }]}
                 </SysButton.Dropdown>
             </div>

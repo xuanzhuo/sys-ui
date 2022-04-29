@@ -18,3 +18,11 @@ group:
 
 ### 下拉按钮
   <code src="./demo/dropdown.tsx">
+
+## API
+
+### SysButton
+<API src="./SysButton.tsx" hideTitle  ></API>
+
+### SysButton.Dropdown
+<API src="./SysDropdown.tsx" hideTitle>

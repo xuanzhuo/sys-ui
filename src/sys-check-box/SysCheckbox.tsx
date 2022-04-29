@@ -1,14 +1,11 @@
+/**
+ * 多选框
+ * @author dhy 2022-04-28
+ */
 import { Checkbox, CheckboxProps } from 'antd';
 import React from 'react';
 import SysGroup from './Group'
-/**
- * autoFocus	自动获取焦点	boolean	false	
-checked	指定当前是否选中	boolean	false	
-defaultChecked	初始是否选中	boolean	false	
-disabled	失效状态	boolean	false	
-indeterminate	设置 indeterminate 状态，只负责样式控制	boolean	false	
-onChange	变化时回调函数	function(e:Event)
- */
+
 interface SysCheckboxProps extends CheckboxProps {
     /**
      * @description 自动获取焦点
