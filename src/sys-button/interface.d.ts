@@ -35,7 +35,7 @@ export interface SysButtonProps extends Base {
 export interface SysDropdownProps extends Base {
     text?: string;
     /**
-     * @description 选项点击触发
+     * @description 选项点击触发  {key,keypath,event} = e
      */
     onItemClick?: <T>(e:T) => void;
     children?: Object[];
