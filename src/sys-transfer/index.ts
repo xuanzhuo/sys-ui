@@ -1,2 +1,2 @@
-export {TransferItem} from './SysTransfer'
-export {default as SysTransfer } from './SysTransfer'
+import SysTransfer from "./SysTransfer";
+export default SysTransfer

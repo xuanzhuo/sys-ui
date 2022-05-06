@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import SysTransfer from '../SysTransfer';
-
+import { SysTransfer, SysTransferItem } from 'sys-ui';
 type mokeItem = {
     key: string;
     title: string;
@@ -38,9 +37,7 @@ const App = () => {
         console.log('direction:', direction);
         console.log('target:', e.target);
     };
-    function render(item: any): string {
-        return item.title;
-    }
+
     return (
         <SysTransfer
             dataSource={mockData}
@@ -50,7 +47,7 @@ const App = () => {
             onChange={onChange}
             onSelectChange={onSelectChange}
             onScroll={onScroll}
-            render={render}
+            render={(item: SysTransferItem) => item.title}
         />
     );
 };

@@ -14,3 +14,5 @@ export { default as SysCheckbox } from './sys-check-box';
 export { default as SysDataPicker } from './sys-data-picker';
 export { default as SysDropdown } from './sys-dropdown';
 export { default as SysButton } from './sys-button';
+export { default as SysTransfer} from './sys-transfer' 
+// export { SysTransferItem, SysTransferProps } from './sys-transfer/interface'
