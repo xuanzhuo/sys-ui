@@ -27,8 +27,6 @@ SysForm.required = required;
 SysForm.max = max;
 SysForm.range = range;
 
-export {
-    FormInstance
-}
+export type { FormInstance }
 
 export default SysForm;

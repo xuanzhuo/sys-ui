@@ -21,5 +21,6 @@ const SysForm = React.forwardRef<FormInstance, SysFromProps>(SysInternalForm) as
         ref?: React.Ref<FormInstance<Values>>;
     },
 ) => React.ReactElement;
-export { FormItem, FormInstance };
+export { FormItem };
+export type { FormInstance }
 export default SysForm;
