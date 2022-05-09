@@ -1,7 +1,7 @@
 import Base from './base';
 import { DatePickerProps } from 'antd';
 
-export interface DataPickerProps extends Base {
+export interface SysDataPickerProps extends Omit<Base,"defaultPickerValue"> {
     /**
      * @description 默认面板日期
      * @default -
@@ -14,23 +14,18 @@ export interface DataPickerProps extends Base {
      * @type moment
      */
     defaultValue?: DatePickerProps['defaultValue'];
-    /**
-     * @description 不可选择的时间
-     * @default -
-     * @type function(date)
-     */
-    disabledTime?: DatePickerProps['disabledTime'];
+
     /**
      * @description 设置日期格式，为数组时支持多格式匹配，展示以第一个为准。配置参考 moment.js，支持自定义格式
      * @default YYYY-MM-DD
      * @type string | (value: moment) => string | (string | (value: moment) => string)[]
      */
-    format?: DataPickerProps['format'];
+    format?: DatePickerProps['format'];
     /**
      * @description 在面板中添加额外的页脚
      * @default -
      */
-    renderExtraFooter?: (mode) => React.ReactNode;
+    renderExtraFooter?: <Mode>(mode: Mode) => React.ReactNode;
     /**
      * @description 当设定了 showTime 的时候，面板是否显示“此刻”按钮
      * @default -
@@ -46,7 +41,7 @@ export interface DataPickerProps extends Base {
      * @default -
      * @type moment
      */
-    value?: DataPickerProps['value'];
+    value?: DatePickerProps['value'];
     /**
      * @description 时间发生变化的回调
      * @default -
@@ -63,8 +58,11 @@ export interface DataPickerProps extends Base {
      */
     onPanelChange?: <Props>(props: Props) => void;
 }
-
-export interface RangePickerProps extends Base {
+// type Moment = DatePickerProps['defaultPickerValue'];
+type Moment = any
+type EventValue = any
+type DisabledTimes = any
+export interface RangePickerProps <RangeValue> extends Omit<Base, 'disabled' | 'placeholder'|'defaultPickerValue'> {
     mode?: any;
     picker?: any;
     placeholder?: [string, string] | undefined;
@@ -75,9 +73,9 @@ export interface RangePickerProps extends Base {
     allowEmpty?: [boolean, boolean];
     /**
      * @description 自定义日期单元格的内容。info
-     * @default -
+     * @default - <Moment>(currentDate: Moment, today: Moment, info) => React.ReactNode
      */
-    dateRender?: <Moment>(currentDate: Moment, today: Moment, info) => React.ReactNode;
+    dateRender?: DatePickerProps['dateRender'];
     /**
      * @description 默认面板日期
      * @default -
@@ -88,7 +86,7 @@ export interface RangePickerProps extends Base {
      * @description 默认日期
      * @default -
      */
-    defaultValue?: RangeValue<Moment> | undefined;
+    defaultValue?: Moment | undefined;
     /**
      * @description 禁用起始项
      * @default -
@@ -99,7 +97,7 @@ export interface RangePickerProps extends Base {
      * @default -
      * @type ((date: EventValue<Moment>, type: RangeType) => DisabledTimes)
      */
-    disabledTime?: DatePickerProps['disabledTime'];
+    disabledTime?:((date: Moment, type: Moment) => DisabledTimes) | undefined;
     /**
      * @description 展示的日期格式
      * @default YYYY-MM-DD HH:mm:ss
@@ -110,13 +108,7 @@ export interface RangePickerProps extends Base {
      * @default -
      * @type { [range: string]: moment[] } | { [range: string]: () => moment[] }
      */
-    ranges?:
-        | Record<
-              string,
-              | [EventValue<Moment>, EventValue<Moment>]
-              | (() => [EventValue<Moment>, EventValue<Moment>])
-          >
-        | undefined;
+    ranges?: Record<string, [Moment, Moment] | (() => [Moment, Moment])> | undefined;
 
     /**
      * @description  在面板中添加额外的页脚
@@ -132,15 +124,16 @@ export interface RangePickerProps extends Base {
      * @description  待选日期发生变化的回调。
      * @default -
      */
-    onCalendarChange?: (
-        values: RangeValue<Moment>,
-        formatString: [string, string],
-        info: RangeInfo,
-    ) => void;
+    // onCalendarChange?: (
+    //     values: RangeValue<Moment>,
+    //     formatString: [string, string],
+    //     info: RangeInfo,
+    // ) => void;
+    onCalendarChange?: ((values: Moment, formatString: [string, string], info: any) => void) | undefined;
     /**
      * @description 日期范围发生变化的回调
      * @default -
      */
-    onChange?: (values: RangeValue<Moment>, dateStrings: [string, string]) => void;
+    onChange?: ((values: Moment, formatString: [string, string]) => void) | undefined;
     showTime?: Object | boolean;
 }

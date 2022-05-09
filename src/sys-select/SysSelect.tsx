@@ -6,7 +6,7 @@ import React from 'react';
 import { Select } from 'antd';
 import { SysSelectProps } from './interface';
 let {Option,OptGroup} = Select
-function SysSelect({ children, ...rest }: SysSelectProps) {
+function SysSelect({ children, ...rest }: SysSelectProps<any>) {
     return <Select {...rest}>{children}</Select>;
 }
 SysSelect.Option = Option;

@@ -60,7 +60,7 @@ export interface SysTransferProps<RecordType> {
      * @default -
      * @type (record) => ReactNode
      */
-    render?: TransferProps['render'];
+    render?: TransferProps<RecordType>['render'];
     /**
      * @description 选项在两栏之间转移时的回调函数
      * @default -
@@ -102,7 +102,7 @@ export interface SysTransferProps<RecordType> {
      */
     filterOption?: (inputValue: string, item: RecordType) => boolean;
     locale?: Partial<TransferLocale>;
-    footer?: TransferProps['footer'];
+    footer?: TransferProps<RecordType>['footer'];
     rowKey?: (directionrecord: RecordType) => string;
     /**
      * @description 搜索框内容时改变时的回调函数
@@ -117,7 +117,7 @@ export interface SysTransferProps<RecordType> {
      */
     onScroll?: (direction: TransferDirection, e: React.SyntheticEvent<HTMLUListElement>) => void;
     //(props: TransferListBodyProps<RecordType>) => React.ReactNode;
-    children?: TransferProps['children'];
+    children?: TransferProps<RecordType>['children'];
     /**
      * @description 是否展示全选勾选框
      * @default true

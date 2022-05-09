@@ -26,11 +26,11 @@ export default interface Base {
      * @default -
      */
     className?: string;
-    /**
-     * @description 自定义日期单元格的内容
-     * @default -
-     */
-    dateRender?: <T>(props: T) => React.ReactNode;
+    // /**
+    //  * @description 自定义日期单元格的内容
+    //  * @default -
+    //  */
+    // dateRender?: <T>(props: T) => React.ReactNode;
     /**
      * @description  禁用
      * @default false
@@ -137,9 +137,9 @@ export default interface Base {
      * @default -
      */
     onOpenChange?: <T>(open: T) => {};
-    /**
-     * @description 日历面板切换的回调
-     * @default -
-     */
-    onPanelChange?: (value, mode) => {};
+    // /**
+    //  * @description 日历面板切换的回调
+    //  * @default -
+    //  */
+    // onPanelChange?: (value, mode) => {};
 }

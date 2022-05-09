@@ -28,7 +28,7 @@ export interface SysButtonProps extends Base {
      * @description 按钮点击事件
      * @default
      */
-    onClick?: <t>(e: T) => void;
+    onClick?: <T>(e:T) => void;
     children?: React.ReactNode;
 }
 

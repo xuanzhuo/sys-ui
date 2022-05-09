@@ -6,7 +6,7 @@ import React from 'react';
 import { TreeSelect } from 'antd';
 import {SysTreeSelectProps} from './interface';
 let { TreeNode } = TreeSelect;
-function SysTreeSelect({ children, ...rest }: SysTreeSelectProps) {
+function SysTreeSelect({ children, ...rest }: SysTreeSelectProps<any>) {
     return <TreeSelect {...rest}>{children}</TreeSelect>;
 }
 SysTreeSelect.TreeNode = TreeNode;

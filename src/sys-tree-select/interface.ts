@@ -1,7 +1,7 @@
 import { TreeSelectProps, SelectProps } from 'antd';
 import React from 'react';
-declare type RawValueType = string | number;
-declare type Key = string | number;
+ type RawValueType = string | number;
+ type Key = string | number;
 interface LabelValueType {
     key?: Key;
     value?: RawValueType;
@@ -9,14 +9,17 @@ interface LabelValueType {
     /** Only works on `treeCheckStrictly` */
     halfChecked?: boolean;
 }
-declare type DefaultValueType = RawValueType | RawValueType[] | LabelValueType | LabelValueType[];
+ type DefaultValueType = RawValueType | RawValueType[] | LabelValueType | LabelValueType[];
 interface FieldNames {
     value?: string;
     label?: string;
     children?: string;
 }
+type VT = any
 declare type CheckedStrategy = "SHOW_ALL" | "SHOW_PARENT" |  "SHOW_CHILD";
-export  interface SysTreeSelectProps extends SelectProps {
+
+
+export  interface SysTreeSelectProps<T> extends TreeSelectProps<VT> {
     /**
      * @description 显示清除按钮
      * @default	false
@@ -54,7 +57,7 @@ export  interface SysTreeSelectProps extends SelectProps {
      * @default function
      * @type boolean | function(inputValue: string, treeNode: TreeNode) (函数需要返回 bool 值)
      */
-    filterTreeNode?: TreeSelectProps['filterTreeNode'];
+    filterTreeNode?: TreeSelectProps<T>['filterTreeNode'];
     /**
      * @description 是否把每个选项的 label 包装到 value 中，会把 value 类型从 string 变为 {value: string, label: ReactNode, halfChecked(treeCheckStrictly 时有效): string[] } 的格式
      * @default false
@@ -65,13 +68,13 @@ export  interface SysTreeSelectProps extends SelectProps {
      * @default -
      * @type function(node)
      */
-    loadData?: TreeSelectProps['loadData'];
+    loadData?: TreeSelectProps<T>['loadData'];
     /**
      * @description 隐藏 tag 时显示的内容
      * @default -
      * @type (omittedValues: LabelValueType[]) => React.ReactNode / LabelValueType={ key?: Key;  value?: string | number;label?: React.ReactNode;halfChecked?: boolean;}
      */
-    maxTagPlaceholder?: TreeSelectProps['maxTagPlaceholder'];
+    maxTagPlaceholder?: TreeSelectProps<T>['maxTagPlaceholder'];
     /**
      * @description 支持多选（当设置 treeCheckable 时自动变为 true）
      * @default false
@@ -97,7 +100,7 @@ export  interface SysTreeSelectProps extends SelectProps {
      * @default
      *
      */
-    showCheckedStrategy?:  SHOW_ALL |  SHOW_PARENT |  SHOW_CHILD;
+    showCheckedStrategy?:  "SHOW_ALL" |  "SHOW_PARENT" |  "SHOW_CHILD";
     /**
      * @description 是否支持搜索框
      * @default  单选：false|多选：true
@@ -108,7 +111,7 @@ export  interface SysTreeSelectProps extends SelectProps {
      * @default -
      * @type React.ReactNode | ((props: TreeNodeProps) => React.ReactNode)
      */
-    switcherIcon?: TreeSelectProps['switcherIcon'];
+    switcherIcon?: TreeSelectProps<T>['switcherIcon'];
     /**
      *  @description 显示 Checkbox
      *  @default false
@@ -124,7 +127,7 @@ export  interface SysTreeSelectProps extends SelectProps {
      * @default
      * @type */
 
-    treeData?: TreeSelectProps['treeData'];
+    treeData?: TreeSelectProps<T>['treeData'];
     /**
      * @description 是否展示线条样式
      * @default false
@@ -136,7 +139,7 @@ export  interface SysTreeSelectProps extends SelectProps {
      * @default false
      * @type  boolean | SimpleModeConfig
      */
-    treeDataSimpleMode?: TreeSelectProps['treeDataSimpleMode'];
+    treeDataSimpleMode?: TreeSelectProps<T>['treeDataSimpleMode'];
     /**
      * @description 默认展开所有的父节点
      * @default false
@@ -157,7 +160,7 @@ export  interface SysTreeSelectProps extends SelectProps {
       @default false
       @type boolean
      */
-    treeIcon?: TreeSelectProps['treeIcon'];
+    treeIcon?: TreeSelectProps<T>['treeIcon'];
     /**
      * @description （受控）已经加载的节点，需要配合 loadData 使用
      * @default []
@@ -183,7 +186,7 @@ export  interface SysTreeSelectProps extends SelectProps {
      * @default
      * @type  (value: ValueType, labelList: React.ReactNode[], extra: ChangeEventExtra) => void
      */
-    onChange?: TreeSelectProps['onChange'];
+    onChange?: TreeSelectProps<T>['onChange'];
     /**
      * @description 展开下拉菜单的回调
      * @default
@@ -201,8 +204,9 @@ export  interface SysTreeSelectProps extends SelectProps {
      * @description 	被选中时调用
      * @type function(value, node, extra)
      */
-    onSelect?: TreeSelectProps['onSelect'];
+    onSelect?: TreeSelectProps<T>['onSelect'];
     children?: React.ReactNode;
     style?: React.CSSProperties;
     dropdownStyle?: React.CSSProperties;
+    options?:any;
 }
