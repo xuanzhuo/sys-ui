@@ -1,30 +1,19 @@
 import React, { Component } from 'react';
-import { SysForm } from 'sys-ui';
-const { halfFourColLayout, fourColLayout, required, range } = SysForm;
-import { Input, Button, Select } from 'antd';
-const { Option } = Select;
-const FormItem = SysForm.FormItem;
-export class demo extends Component {
-    $form = React.createRef();
-    state = {
-        options: [],
-    };
+import {Button} from 'antd';
+import { SysForm,SysFormInstance, SysInput} from 'sys-ui';
 
+
+const {FormItem,halfFourColLayout,fourColLayout,required} = SysForm
+export class demo extends Component {
+    $form = React.createRef<SysFormInstance>();
     onClick = () => {
-        this.$form.current.validateFields().then(values => {
+        this.$form.current?.validateFields().then(values => {
             console.log(values);
         });
     };
-    change = open => {
-        if (open) {
-            this.setState({
-                options: ['Jack', 'Lucy', 'Yiminghe'],
-            });
-        }
-    };
     render() {
         return (
-            <SysForm refwrap={(this.$form = React.createRef())}>
+            <SysForm ref={this.$form}>
                 <FormItem
                     {...halfFourColLayout}
                     label="名称"
@@ -32,35 +21,15 @@ export class demo extends Component {
                     rules={[required]}
                     initialValue=""
                 >
-                    <Select allowClear>
-                        <Option value="jack">Jack</Option>
-                        <Option value="lucy">Lucy</Option>
-                        <Option value="disabled" disabled>
-                            Disabled
-                        </Option>
-                        <Option value="Yiminghe">yiminghe</Option>
-                    </Select>
+                    <SysInput/>
                 </FormItem>
                 <FormItem
                     {...halfFourColLayout}
                     label="名称"
                     name="name1"
-                    rules={[required]}
                     initialValue={''}
                 >
-                    <Select
-                        allowClear
-                        // labelInValue
-                        onDropdownVisibleChange={this.change}
-                    >
-                        {this.state.options.map((item, index) => {
-                            return (
-                                <Option key={item} value={index}>
-                                    {item}
-                                </Option>
-                            );
-                        })}
-                    </Select>
+                    <SysInput/>
                 </FormItem>
                 <FormItem {...fourColLayout}>
                     <Button onClick={this.onClick}>校验</Button>

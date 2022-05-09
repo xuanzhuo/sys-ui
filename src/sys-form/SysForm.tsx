@@ -1,5 +1,6 @@
-import { Form, FormProps, FormInstance } from 'antd';
 import React from 'react';
+import { Form, FormProps, FormInstance } from 'antd';
+import './style/index.less'
 export interface SysFromProps<Values = any> extends FormProps<Values> {
     cols?: string;
 }

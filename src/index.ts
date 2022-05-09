@@ -6,6 +6,7 @@ export { default as SysTabs } from './sys-tabs';
 export { default as SysToolbar } from './sys-toolbar';
 export { default as SysIcon } from './sys-icon';
 export { default as SysForm } from './sys-form';
+export type { SysFormInstance } from './sys-form';
 export * as SysModal from './sys-modal';
 export { default as SysMenu } from './sys-menu';
 export { default as SysInput } from './sys-input';
