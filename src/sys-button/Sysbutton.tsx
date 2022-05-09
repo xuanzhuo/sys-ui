@@ -3,7 +3,7 @@
  * @author dhy 2022-04-28
  */
 import React from "react";
-import SysDropDown from './SysDropdown'
+// import SysDropDown from './SysDropdown'
 import {SysButtonProps} from './interface'
 // import {SysIcon} from 'sys-ui'
 import  SysIcon  from "../sys-icon";
@@ -27,5 +27,5 @@ function SysButton({ title, icon, className, disabled, onClick, children }:SysBu
         </button>
     );
 }
-SysButton.Dropdown = SysDropDown
+// SysButton.Dropdown = SysDropDown
 export default  SysButton
