@@ -39,7 +39,7 @@ export interface SysTabsProps {
      * @description 放置tab页签项
      * @default -
      */
-    children: React.ReactElement<SysTabPaneProps>[];
+    children: React.ReactElement<SysTabPaneProps>[] | React.ReactElement<SysTabPaneProps>;
 }
 
 function SysTabs({
@@ -80,8 +80,8 @@ function SysTabs({
     function onEdit(key:any){
         onClosed?.(Number(key))
     }
-    
-    const tabPanes = children
+    const childrenArr = children instanceof Array?children:[children];
+    const tabPanes = childrenArr
         .filter((node: React.ReactNode) => {
             return (
                 React.isValidElement(node) &&
