@@ -10,7 +10,7 @@ interface AutoSizeType {
 interface ShowCountProps {
     formatter: (args: { count: number; maxLength?: number }) => string;
 }
-interface TextAreaProps {
+interface TextAreaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
     /**
      * @description 文本框行高
      * @default -
