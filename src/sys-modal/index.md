@@ -34,7 +34,7 @@ group:
 
 ## 收集数据
 
-<code src="./demo/CollectData.tsx" title="收集数据" desc="功能尚未完善,谨慎使用！">
+<code src="./demo/CollectData.tsx" title="收集数据" desc="基础用法,高级用法敬请期待！">
 
 ## API
 ### SysModal的方法

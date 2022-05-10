@@ -15,7 +15,7 @@ export interface CollectModalProps extends SysModalProps {
      * @description 数据来源组件
      * @default -
      */
-    onOk: (data?:any) => void;
+    onOk: (customInfo?:any) => void;
     /**
      * @description 数据来源组件
      * @default -
@@ -28,14 +28,40 @@ export interface CollectModalProps extends SysModalProps {
     sourceProps?: object;
 }
 interface SourceCompRef extends React.Component {
-    submit?: (cb?: (data: any) => void) => void;
+    submit?: (cb?: (customInfo: any) => void) => void;
 }
 
-function CollectModal({ source, onOk,sourceProps,...rest }: CollectModalProps) {
+function CollectModal({ source, onOk,sourceProps,buttonsProps,...rest }: CollectModalProps) {
     if (!source) return <SysModal visible={true} onOk={okHandler} {...rest} />;
 
     const sourceCompRef = useRef<SourceCompRef>(null);
     const SourceComp = source;
+    if(buttonsProps){
+        const buttons = buttonsProps.map((item,index)=>{
+            const {text,type,onClick} = item;
+            const onClickHandler = ()=>{
+                if(index === buttonsProps.length - 1){
+                    const customInfo:any = '';
+                    onClick?.(customInfo)
+                }else{
+                    sourceCompRef.current?.submit?.((customInfo) => {
+                        onClick?.(customInfo);
+                    });
+                }
+            }
+            return {
+                type,
+                text,
+                onClick:onClickHandler
+            }
+        })
+        return (
+            <SysModal visible={true} buttonsProps={buttons} {...rest}>
+                <SourceComp ref={sourceCompRef} {...sourceProps}/>
+            </SysModal>
+        );
+    }
+
     function okHandler() {
         if(sourceCompRef.current?.submit){
             sourceCompRef.current?.submit?.((data) => {
