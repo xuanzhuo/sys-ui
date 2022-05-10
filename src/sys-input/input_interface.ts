@@ -1,3 +1,4 @@
+import {InputProps} from 'antd'
 // accept?: string | undefined;
 // alt?: string | undefined;
 // autoComplete?: string | undefined;
@@ -34,7 +35,7 @@ interface Props {
     // step?: number | string | undefined;
     // width?: number | string | undefined;
 }
-export default interface SysInputProps extends Props {
+export default interface SysInputProps extends InputProps {
     /**
      * @description      带标签的 input，设置后置标签
      * @default           -
@@ -118,4 +119,5 @@ export default interface SysInputProps extends Props {
  
     onBlur?: React.FocusEventHandler<HTMLElement>;
     onFocus?: React.FocusEventHandler<HTMLElement>;
+
 }
