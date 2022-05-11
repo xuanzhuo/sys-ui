@@ -11,10 +11,10 @@ import './style/index.less';
 
 export interface SysTabsProps {
     /**
-     * @description       默认激活的标签页
+     * @description       激活的标签页
      * @default           0
      */
-    defaultIndex?: number;
+    activeIndex?: number;
     /**
      * @description       记录激活的标签页
      * @default           无默认值（默认不记录,设置值时自动开启）
@@ -44,7 +44,7 @@ export interface SysTabsProps {
 
 function SysTabs({
     storageId,
-    defaultIndex = 0,
+    activeIndex = 0,
     tabClickRefresh = true,
     tabClosable = false,
     onClosed,
@@ -52,25 +52,50 @@ function SysTabs({
 }: SysTabsProps) {
     const [activeKey, setActiveKey] = useState('0');
     useEffect(()=>{
-        setActiveKey(getDefaultIndex());
-    },[])
-    function getDefaultIndex(){
-        if(storageId && localStorage.getItem(storageId)){
-            return String(localStorage.getItem(storageId));
+        function getDefaultIndex(){
+            if(storageId && localStorage.getItem(storageId)){
+                return String(localStorage.getItem(storageId));
+            }
+            return String(activeIndex)
         }
-        return String(defaultIndex)
-    }
+        setActiveKey(getDefaultIndex());
+    },[activeIndex])
+    
+    useEffect(()=>{
+        if(storageId){
+            localStorage.setItem(storageId,activeKey)
+        }
+    },[activeKey])
 
     const [isShow, setIsShow] = useState(true);
     useEffect(() => {
         setIsShow(true);
     }, [isShow]);
 
+    const [tabPanes, setTabPanes] = useState<SysTabPaneProps[]>([]);
+    useEffect(() => {
+        const childrenArr = children instanceof Array?children:[children];
+        const tabPanes = childrenArr
+            .filter((node: React.ReactNode) => {
+                return (
+                    React.isValidElement(node) &&
+                    typeof node.type === 'function' &&
+                    node.type.name === 'SysTabPane'
+                );
+            })
+            .map((node: React.ReactElement) => {
+                return {
+                    ...node.props,
+                };
+            });
+        setTabPanes(tabPanes);
+        if(Number(activeKey) >= tabPanes.length){
+            setActiveKey('0')
+        }
+    },[children,activeKey]);
+
     function onChange(key: string) {
         setActiveKey(key);
-        if(storageId){
-            localStorage.setItem(storageId,key)
-        }
     }
 
     function onTabClick(key: string) {
@@ -80,21 +105,7 @@ function SysTabs({
     function onEdit(key:any){
         onClosed?.(Number(key))
     }
-    const childrenArr = children instanceof Array?children:[children];
-    const tabPanes = childrenArr
-        .filter((node: React.ReactNode) => {
-            return (
-                React.isValidElement(node) &&
-                typeof node.type === 'function' &&
-                node.type.name === 'SysTabPane'
-            );
-        })
-        .map((node: React.ReactElement) => {
-            return {
-                ...node.props,
-            };
-        });
-
+    
     return (
         <Tabs
             hideAdd
