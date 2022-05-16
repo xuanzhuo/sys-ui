@@ -31,6 +31,11 @@ export interface SysTabsProps {
      */
     tabClosable?:boolean;
     /**
+     * @description 页签位置
+     * @default top
+     */
+    tabPosition?:'top'|'left';
+    /**
      * @description 标签关闭回调
      * @default -
      */
@@ -47,6 +52,7 @@ function SysTabs({
     activeIndex = 0,
     tabClickRefresh = true,
     tabClosable = false,
+    tabPosition = 'top',
     onClosed,
     children 
 }: SysTabsProps) {
@@ -114,6 +120,7 @@ function SysTabs({
             onChange={onChange}
             onTabClick={onTabClick}
             type={tabClosable?'editable-card':'line'}
+            tabPosition={tabPosition}
             onEdit={onEdit}
         >
             {tabPanes.map((item: SysTabPaneProps, index: number) => {

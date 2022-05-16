@@ -27,7 +27,7 @@ tabs布局
 ## 新增和删除标签页
 
 <code src="./demo/AddAndRemove.tsx" title="新增和删除标签页"
-desc='新增和删除标签页由外部程序自己控制'>>
+desc='新增和删除标签页由外部程序自己控制'>
 
 ## API
 
