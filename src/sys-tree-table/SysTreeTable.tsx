@@ -12,7 +12,7 @@ type ExpandableConfig = SysTableProps['expandable'];
 export interface SysTreeTableColumn extends SysTableColumnType {}
 export function SysTreeTableColumnApi(p: SysTreeTableColumn) {}
 
-export interface SysTreeTableProps extends Omit<SysTableProps, 'expandable'> {
+export interface SysTreeTableProps extends Omit<SysTableProps, 'expandable'|'defaultKeys'> {
     /**
      * @description 指定展开图标所在列的dataIndex
      * @default -
@@ -43,6 +43,10 @@ export interface SysTreeTableProps extends Omit<SysTableProps, 'expandable'> {
      * @default -
      */
     onExpand?: (expanded: boolean, record: any) => void;
+    /**
+     * @description 选中项发生变化时的回调
+     * @default -
+     */
     onSelectChange?: (
         keys: any[],
         rows: any[],
@@ -71,7 +75,10 @@ function SysTreeTable({
 }: SysTreeTableProps) {
     /** tree转map */
     const treeDataMap = useMemo(() => {
-        return treeData2Map(dataSource);
+        if(dataSource && dataSource.length>0){
+            return treeData2Map(dataSource);
+        }
+        return undefined
     }, [dataSource]);
 
     /** 指定展开图标所在列 */
@@ -91,6 +98,7 @@ function SysTreeTable({
 
     /** 默认展开层级 */
     useEffect(() => {
+        if(!treeDataMap) return ;
         if (defaultExpandLevel && typeof defaultExpandLevel === 'number') {
             const expandedKeys: string[] = [];
             for (let dataId in treeDataMap) {
@@ -103,15 +111,15 @@ function SysTreeTable({
         } else if (defaultExpandLevel === 'all') {
             setExpandedRowKeys(Object.keys(treeDataMap));
         }
-    }, []);
+    }, [treeDataMap]);
 
     /** 选中定位操作 */
     const [defaultKeys, setDefaultKeys] = useState<string | number>();
     useEffect(() => {
-        if (selectedKeys !== undefined) {
+        if (selectedKeys !== undefined && treeDataMap) {
             const expandedKeys: (string | number)[] = [];
             let id = selectedKeys;
-            while (id !== rootId) {
+            while (id !== rootId && treeDataMap[id]) {
                 expandedKeys.push(id);
                 id = treeDataMap[id].pid;
             }
@@ -121,14 +129,14 @@ function SysTreeTable({
             });
             setDefaultKeys(selectedKeys);
         }
-    }, [selectedKeys]);
+    }, [selectedKeys,treeDataMap]);
 
     /** 勾选操作 */
     const rowSelection = {
         checkStrictly: checkboxType === 'normal',
     };
     function onSelectChangeHandler(keys: any[], rows: any[]) {
-        if (keys.length === 1) {
+        if (keys.length === 1 && treeDataMap ) {
             const selectKey = keys[0];
             const select = treeDataMap[selectKey];
             const selectPid = select.pid;
