@@ -2,7 +2,12 @@ import React from 'react';
 import { Form, FormProps, FormInstance } from 'antd';
 import './style/index.less'
 export interface SysFromProps<Values = any> extends FormProps<Values> {
-    cols?: string;
+    /**
+     * @description 指定表单布局
+     * @default - 
+     * @type "wide-four"(宽四列),"narrow-four"(窄四列),"wide-two"(宽两列)"narrow-two"(窄两列)
+     */
+    cols?: "wide-four"|"narrow-four"|"wide-two"|"narrow-two";
 }
 
 const SysInternalForm: React.ForwardRefRenderFunction<FormInstance, SysFromProps> = (

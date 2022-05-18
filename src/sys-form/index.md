@@ -22,6 +22,8 @@ Form表单
 
 ## API
 
-### SysTabs
-<API src="./SysForm.tsx" hideTitle></API>
+### SysForm
 
+| 属性名 | 描述 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| cols | 指定表单布局 | `wide-four`\|`narrow-four`\|`wide-two`\|`narrow-two` | - |
