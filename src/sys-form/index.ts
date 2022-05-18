@@ -1,4 +1,4 @@
-import InternalSysForm, { FormItem, FormInstance } from './SysForm';
+import InternalSysForm, { FormItem, FormInstance, useForm} from './SysForm';
 import { twoColLayout, fourColLayout, halfFourColLayout, createLayout } from './formLayout';
 import { required, max, range } from './SysRules';
 
@@ -6,6 +6,7 @@ type InternalSysFormType = typeof InternalSysForm;
 
 interface SysFormInterface extends InternalSysFormType {
     FormItem: typeof FormItem;
+    useForm: typeof useForm;
     twoColLayout: typeof twoColLayout;
     fourColLayout: typeof fourColLayout;
     halfFourColLayout: typeof halfFourColLayout;
@@ -17,6 +18,7 @@ interface SysFormInterface extends InternalSysFormType {
 
 const SysForm = InternalSysForm as SysFormInterface;
 SysForm.FormItem = FormItem
+SysForm.useForm = useForm
 
 //表单布局
 SysForm.twoColLayout = twoColLayout;

@@ -4,7 +4,7 @@ import './style/index.less'
 export interface SysFromProps<Values = any> extends FormProps<Values> {
     cols?: string;
 }
-const FormItem = Form.Item;
+
 const SysInternalForm: React.ForwardRefRenderFunction<FormInstance, SysFromProps> = (
     props,
     ref,
@@ -22,6 +22,10 @@ const SysForm = React.forwardRef<FormInstance, SysFromProps>(SysInternalForm) as
         ref?: React.Ref<FormInstance<Values>>;
     },
 ) => React.ReactElement;
-export { FormItem };
+
+const FormItem = Form.Item;
+const useForm = Form.useForm
+export { FormItem ,useForm};
+
 export type { FormInstance }
 export default SysForm;
