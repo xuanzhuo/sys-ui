@@ -17,3 +17,7 @@ group:
 
 ### 基础用法
 <code src="./demo/base.tsx">
+
+## API
+
+<API src="./SysText.tsx" hideTitle></API>

@@ -1,12 +1,16 @@
 import { Popover,PopoverProps } from 'antd';
 import React from 'react';
-/** 
- * 
- * content	卡片内容	ReactNode | () => ReactNode	-	
-title	卡片标题	ReactNode | () => ReactNode	- 
-*/
+
 interface SysPopoverProps extends PopoverProps {
+    /**
+     * @description 卡片内容
+     * @default ReactNode | () => ReactNode	
+     */
     content: React.ReactNode | (() => React.ReactNode);
+    /**
+     * @description 卡片标题
+     * @default ReactNode | () => ReactNode
+     */
     title: React.ReactNode | (() => React.ReactNode);
     children?: React.ReactNode;
 }

@@ -12,24 +12,20 @@ group:
 
 # SysPopver
 
-模态框（弹出框）
+## 代码演示
 
-# 代码演示
+### 基础用法
 
-## 基础用法
+  <code src="./demo/base.tsx">
 
-<code src="./demo/base.tsx">
+### 三种触发方式
+  <code src="./demo/trigger.tsx">
 
-## 三种触发方式
-<code src="./demo/trigger.tsx">
+### 箭头指向
+  <code src="./demo/arrowPointAtCenter.tsx">
 
-##  箭头指向
-<code src="./demo/arrowPointAtCenter.tsx">
-
-## 从浮层内关闭
-<code src ="./demo/close.tsx">
+### 从浮层内关闭
+  <code src="./demo/close.tsx" >
 
 ## API
-
-
-
+ <API src="./SysPopver.tsx" hideTitle></API>
