@@ -1,5 +1,5 @@
 import React from 'react';
-import SysText from '../Systext';
+import {SysText} from 'sys-ui';
 const title = "SysTextSysSysTextSysTextSysTextSysTextSysTextSysTextSysTextSysTextSysTextSysTextSysTextSysTextSysTextSysTextSysTextSysTextSysTextSysTextSysTextTextSysTextSysText"
 const App: React.FC = () => {
     return (

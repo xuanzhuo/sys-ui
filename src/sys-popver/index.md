@@ -1,5 +1,5 @@
 ---
-title: SysPopver
+title: SysPopover
 nav:
     title: 组件
     path: /components
@@ -10,7 +10,7 @@ group:
     order: 1
 ---
 
-# SysPopver
+# SysPopover
 
 ## 代码演示
 
@@ -28,4 +28,4 @@ group:
   <code src="./demo/close.tsx" >
 
 ## API
- <API src="./SysPopver.tsx" hideTitle></API>
+ <API src="./SysPopover.tsx" hideTitle></API>

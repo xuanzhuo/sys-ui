@@ -1,1 +1,3 @@
-export { default as SysPopover } from './SysPopver';
+import SysPopover from "./SysPopover";
+
+export default SysPopover

@@ -1,1 +1,2 @@
-export {default as Systext} from './Systext'
+import SysText from './Systext';
+export default SysText;

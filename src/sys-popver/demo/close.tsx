@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button } from 'antd';
-import SysPopover from '../SysPopver';
+import {SysPopover} from 'sys-ui';
 const App: React.FC = () => {
   const [visible, setVisible] = useState(false);
 

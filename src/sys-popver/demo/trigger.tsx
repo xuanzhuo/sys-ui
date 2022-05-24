@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from 'antd';
-import SysPopover from '../SysPopver';
+import {SysPopover} from 'sys-ui';
 const content = (
   <div>
     <p>Content</p>
