@@ -24,3 +24,4 @@ export { default as SysTreeTable } from './sys-tree-table';
 export type { SysTreeTableProps, SysTreeTableColumn } from './sys-tree-table';
 export { default as SysPopover } from './sys-popver';
 export { default as SysText} from './sys-text'
+export * as SysGrid from './sys-grid'
