@@ -19,7 +19,12 @@ group:
 ## 基础用法
 <code src="./demo/base.tsx">
 
+
 ## 左右偏移
+<code src="./demo/offset.tsx">
+
+## 响应式
+<code src="./demo/meta.tsx">
 
 
 ## API
