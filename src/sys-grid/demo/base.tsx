@@ -1,6 +1,8 @@
 import React from "react";
-import SysRow from '../SysRow'
-import SysCol from "../SysCol";
+import {SysGrid} from 'sys-ui'
+let {SysRow,SysCol} = SysGrid
+// import SysRow from '../SysRow'
+// import SysCol from "../SysCol";
 import './style.less'
 const App: React.FC = () => (
     <>
