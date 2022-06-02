@@ -37,7 +37,7 @@ export interface SysTreeTableProps extends Omit<SysTableProps, 'expandable'|'def
      * @description 数据根rowKey
      * @default '0'
      */
-    rootId?: string | number;
+    rootId?: string;
     /**
      * @description 点击展开图标时触发
      * @default -
@@ -76,7 +76,10 @@ function SysTreeTable({
     /** tree转map */
     const treeDataMap = useMemo(() => {
         if(dataSource && dataSource.length>0){
-            return treeData2Map(dataSource);
+            return treeData2Map(dataSource,{
+                idField:rowKey,
+                root:rootId
+            });
         }
         return undefined
     }, [dataSource]);
@@ -103,8 +106,8 @@ function SysTreeTable({
             const expandedKeys: string[] = [];
             for (let dataId in treeDataMap) {
                 const dataItem = treeDataMap[dataId];
-                if (dataItem.level <= defaultExpandLevel && !expandedKeys.includes(dataItem.id)) {
-                    expandedKeys.push(dataItem.id);
+                if (dataItem.level <= defaultExpandLevel && !expandedKeys.includes(dataItem[rowKey])) {
+                    expandedKeys.push(dataItem[rowKey]);
                 }
             }
             setExpandedRowKeys(expandedKeys);
