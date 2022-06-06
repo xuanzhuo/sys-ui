@@ -1,6 +1,6 @@
 
 import React from 'react';
-import SysInput from '../SysInput'
+import {SysInput} from 'sys-ui'
 
 const App = ()=>{
     return <SysInput.SysPassword placeholder='password'></SysInput.SysPassword>
