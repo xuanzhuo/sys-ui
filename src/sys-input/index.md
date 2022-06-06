@@ -28,6 +28,10 @@ group:
 <code src="./demo/SysTextArea.tsx">
 ## 文本框
 
+### 密码框
+<code src="./demo/password.tsx">
+### 密码框
+
 ## API
 
 ### SysInput
@@ -35,3 +39,6 @@ group:
 
 ### SysInput.TextArea
 <API src="./TextArea.tsx" hideTitle ></API>
+
+### SysInput.SysPassword
+<API src="./Password.tsx" hideTitle></API>
