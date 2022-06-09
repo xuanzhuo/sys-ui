@@ -34,10 +34,10 @@ export interface SysTreeTableProps extends Omit<SysTableProps, 'expandable'|'def
      */
     checkboxType?: 'normal' | 'linkage' | 'semi-linkage';
     /**
-     * @description 数据根rowKey
+     * @description 指定数据根节点（第一级）父id,
      * @default '0'
      */
-    rootId?: string;
+     rootPid?: string;
     /**
      * @description 点击展开图标时触发
      * @default -
@@ -67,7 +67,7 @@ function SysTreeTable({
     defaultExpandLevel = 0,
     selectedKeys,
     checkboxType = 'normal',
-    rootId = '0',
+    rootPid = '0',
     rowKey = 'id',
     onExpand,
     onSelectChange,
@@ -76,9 +76,9 @@ function SysTreeTable({
     /** tree转map */
     const treeDataMap = useMemo(() => {
         if(dataSource && dataSource.length>0){
-            return treeData2Map(dataSource,{
+            return treeData2Map(dataSource as Record<string,any>[] ,{
                 idField:rowKey,
-                root:rootId
+                rootPid
             });
         }
         return undefined
@@ -122,7 +122,7 @@ function SysTreeTable({
         if (selectedKeys !== undefined && treeDataMap) {
             const expandedKeys: (string | number)[] = [];
             let id = selectedKeys;
-            while (id !== rootId && treeDataMap[id]) {
+            while (id !== rootPid && treeDataMap[id]) {
                 expandedKeys.push(id);
                 id = treeDataMap[id].pid;
             }
