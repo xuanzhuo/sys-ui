@@ -85,8 +85,8 @@ function SysTabs({
             .filter((node: React.ReactNode) => {
                 return (
                     React.isValidElement(node) &&
-                    typeof node.type === 'function' &&
-                    node.type.name === 'SysTabPane'
+                    typeof node.type === 'function' 
+                    //&&node.type.name === 'SysTabPane'
                 );
             })
             .map((node: React.ReactElement) => {
