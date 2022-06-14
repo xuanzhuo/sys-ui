@@ -44,7 +44,7 @@ export interface SysTransferProps<RecordType> {
      * @default []
      * @type TransferItem[]
      */
-    dataSource: RecordType[];
+    dataSource?: RecordType[];
     /**
      * @description 显示在右侧框数据的 key 集合
      * @default []

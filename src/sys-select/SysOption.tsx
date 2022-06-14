@@ -21,7 +21,7 @@ interface OptionTypes {
     className?: string;
     style?: React.CSSProperties;
     label?: React.ReactNode;
-    children: React.ReactNode;
+    children?: React.ReactNode;
 }
 
 function SysOption({children, ...rest }: OptionTypes) {

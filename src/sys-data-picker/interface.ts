@@ -1,7 +1,7 @@
 import Base from './base';
 import { DatePickerProps } from 'antd';
 
-export interface SysDataPickerProps extends Omit<Base,"defaultPickerValue"> {
+export interface SysDataPickerProps extends Omit<Base, 'defaultPickerValue'> {
     /**
      * @description 默认面板日期
      * @default -
@@ -39,9 +39,9 @@ export interface SysDataPickerProps extends Omit<Base,"defaultPickerValue"> {
     /**
      * @description 日期
      * @default -
-     * @type moment
+     * @type moment|string
      */
-    value?: DatePickerProps['value'];
+    value?: DatePickerProps['value'] | string;
     /**
      * @description 时间发生变化的回调
      * @default -
@@ -59,10 +59,11 @@ export interface SysDataPickerProps extends Omit<Base,"defaultPickerValue"> {
     onPanelChange?: <Props>(props: Props) => void;
 }
 // type Moment = DatePickerProps['defaultPickerValue'];
-type Moment = any
-type EventValue = any
-type DisabledTimes = any
-export interface RangePickerProps <RangeValue> extends Omit<Base, 'disabled' | 'placeholder'|'defaultPickerValue'> {
+type Moment = any;
+type EventValue = any;
+type DisabledTimes = any;
+export interface RangePickerProps<RangeValue>
+    extends Omit<Base, 'disabled' | 'placeholder' | 'defaultPickerValue'> {
     mode?: any;
     picker?: any;
     placeholder?: [string, string] | undefined;
@@ -97,7 +98,7 @@ export interface RangePickerProps <RangeValue> extends Omit<Base, 'disabled' | '
      * @default -
      * @type ((date: EventValue<Moment>, type: RangeType) => DisabledTimes)
      */
-    disabledTime?:((date: Moment, type: Moment) => DisabledTimes) | undefined;
+    disabledTime?: ((date: Moment, type: Moment) => DisabledTimes) | undefined;
     /**
      * @description 展示的日期格式
      * @default YYYY-MM-DD HH:mm:ss
@@ -129,7 +130,9 @@ export interface RangePickerProps <RangeValue> extends Omit<Base, 'disabled' | '
     //     formatString: [string, string],
     //     info: RangeInfo,
     // ) => void;
-    onCalendarChange?: ((values: Moment, formatString: [string, string], info: any) => void) | undefined;
+    onCalendarChange?:
+        | ((values: Moment, formatString: [string, string], info: any) => void)
+        | undefined;
     /**
      * @description 日期范围发生变化的回调
      * @default -

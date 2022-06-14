@@ -21,6 +21,8 @@ group:
 ### 范围选择
 <code src="./demo/RangePicker.tsx">
 
+### 回显
+<code src="./demo/show.tsx">
 
 ## API
 

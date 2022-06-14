@@ -6,8 +6,14 @@ import React from 'react';
 import { DatePicker } from 'antd';
 import { SysDataPickerProps } from './interface';
 import SysRangePicker from './SysRangePicker';
-function SysDataPicker({ ...rest }: SysDataPickerProps) {
-    return <DatePicker {...rest}></DatePicker>;
+import moment, { Moment } from 'moment';
+function SysDataPicker({ value, format, ...rest }: SysDataPickerProps) {
+    let newValue = value;
+    let dateFormat = format as string;
+    if (typeof value === 'string' && value !== undefined) {
+        newValue = moment(value, dateFormat);
+    }
+    return <DatePicker {...rest} value={newValue as Moment}></DatePicker>;
 }
 SysDataPicker.RangePicker = SysRangePicker;
 export default SysDataPicker;

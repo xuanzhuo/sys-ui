@@ -19,22 +19,22 @@ import {InputProps} from 'antd'
 // min?: number | string | undefined;
 
 
-interface Props {
-    /**
-     *@description 最小字数长度
-     *@default -
-     */
-    minLength?: number | undefined;
-    // multiple?: boolean | undefined;
-    // name?: string | undefined;
-    // pattern?: string | undefined;
-    placeholder?: string | undefined;
-    readOnly?: boolean | undefined;
-    required?: boolean | undefined;
-    // src?: string | undefined;
-    // step?: number | string | undefined;
-    // width?: number | string | undefined;
-}
+// interface Props {
+//     /**
+//      *@description 最小字数长度
+//      *@default -
+//      */
+//     minLength?: number | undefined;
+//     // multiple?: boolean | undefined;
+//     // name?: string | undefined;
+//     // pattern?: string | undefined;
+//     placeholder?: string | undefined;
+//     readOnly?: boolean | undefined;
+//     required?: boolean | undefined;
+//     // src?: string | undefined;
+//     // step?: number | string | undefined;
+//     // width?: number | string | undefined;
+// }
 export default interface SysInputProps extends InputProps {
     /**
      * @description      带标签的 input，设置后置标签
