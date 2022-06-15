@@ -40,7 +40,7 @@ export default () => (
         optionFilterProp="children"
         onChange={onChange}
         onSearch={onSearch}
-        filterOption={(input: string, option: OptionGroupData) =>
+        filterOption={(input: any, option: any) =>
             option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
         }
     >

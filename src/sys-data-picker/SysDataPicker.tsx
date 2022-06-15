@@ -7,13 +7,19 @@ import { DatePicker } from 'antd';
 import { SysDataPickerProps } from './interface';
 import SysRangePicker from './SysRangePicker';
 import moment, { Moment } from 'moment';
-function SysDataPicker({ value, format, ...rest }: SysDataPickerProps) {
+function SysDataPicker({ value, format, placeholder, ...rest }: SysDataPickerProps) {
     let newValue = value;
     let dateFormat = format as string;
-    if (typeof value === 'string' && value !== undefined) {
+    if (typeof value === 'string' && !!value) {
         newValue = moment(value, dateFormat);
     }
-    return <DatePicker {...rest} value={newValue as Moment}></DatePicker>;
+    let newplaceholder = placeholder;
+    if (!placeholder) {
+        newplaceholder = '';
+    }
+    return (
+        <DatePicker {...rest} placeholder={newplaceholder} value={newValue as Moment}></DatePicker>
+    );
 }
 SysDataPicker.RangePicker = SysRangePicker;
 export default SysDataPicker;
