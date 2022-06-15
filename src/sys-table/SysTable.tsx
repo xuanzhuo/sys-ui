@@ -2,8 +2,9 @@
  * 表格
  * @author sizz 2022-04-18
  */
-import React, { useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Table, TableProps, TableColumnType, Pagination, PaginationProps } from 'antd';
+import { isEqual } from 'lodash'
 import './style/index.less';
 
 export type SysRowSelection = TableProps<any>['rowSelection'];
@@ -60,7 +61,7 @@ export interface TablePaginationProps extends PaginationProps {
     total?: number;
 }
 
-export interface SysTableProps extends TableProps<any>{
+export interface SysTableProps extends TableProps<any> {
     /**
      * @description 数据数组
      * @default -
@@ -104,15 +105,15 @@ export interface SysTableProps extends TableProps<any>{
      */
     single?: boolean;
     /**
-     * @description 默认选择的key（对应rowKey值）,只支持单个值
+     * @description 触发选中项的key（对应rowKey值）,外部控制选中项
      * @default -
      */
-    defaultKeys?: string | number;
+    triggerSelectedKeys?: string[];
     /**
      * @description 选中项发生变化时的回调
      * @default -
      */
-    onSelectChange?: (keys: any[], rows: any[]) => void;
+    onSelectChange?: (keys: string[], rows: any[]) => void;
     /**
      * @description 设置行属性
      * @default -
@@ -145,8 +146,23 @@ export interface SysTableProps extends TableProps<any>{
      * @description 是否开启拖动改变列宽
      * @default false
      */
-    resizable?:boolean
+    resizable?: boolean;
+    /**
+     * @description 是否支持树形
+     * @default false
+     */
+    isTree?: boolean;
 }
+
+function usePrev(value:any){
+    const ref = useRef();
+    useEffect(()=>{
+        ref.current = value;
+    })
+    return ref.current
+}
+
+
 
 const SysTable = React.forwardRef(
     (
@@ -160,7 +176,8 @@ const SysTable = React.forwardRef(
             minWidth,
             rowKey = 'id',
             single = false,
-            defaultKeys,
+            triggerSelectedKeys,
+            isTree = false,
             onSelectChange,
             onRow,
             onPageChange,
@@ -169,24 +186,34 @@ const SysTable = React.forwardRef(
         ref,
     ) => {
         /** 选择操作封装 */
-        const [selected, setSelected] = useState<{ keys: any[]; rows: any[] }>({
-            keys: [],
+        const [selected, setSelected] = useState<{ keys: string[]; rows: any[] }>({
+            keys: triggerSelectedKeys || [],
             rows: [],
         });
+
         /** 选中项滚动定位 */
-        useEffect(() => {
-            if (defaultKeys) {
-                /** 选中 待优化*/
-                const rows = dataSource?.filter((item) => {
-                    return defaultKeys === item[rowKey];
-                });
-                setSelected({ keys: [defaultKeys], rows: rows ? rows : [] });
-                onSelectChange?.([defaultKeys], rows ? rows : []);
-                scrollToRowByRowKey(defaultKeys);
-            } else {
-                onSelectChange?.([], []);
+        const prevTriggerSelectedKeys = usePrev(triggerSelectedKeys);
+        useEffect(()=>{
+            if(triggerSelectedKeys && !isEqual(triggerSelectedKeys,prevTriggerSelectedKeys)){
+                setSelected({keys:triggerSelectedKeys,rows:[]})
+                scrollToRowByRowKey(triggerSelectedKeys[0]);
             }
-        }, [defaultKeys]);
+        },[triggerSelectedKeys]);
+        //更新选中项
+        useEffect(()=>{
+            const { keys, rows } = selected;
+            if (!isTree) {
+                const nrows =
+                    dataSource?.filter((item) => {
+                        return keys.includes(item[rowKey]);
+                    }) || [];
+                const ckeys = nrows?.map((item) => item[rowKey]) || [];
+                onSelectChange?.(ckeys, nrows);
+            } else {
+                onSelectChange?.(keys, rows);
+            }
+        },[selected,dataSource]);
+
         const sysTableRef = useRef<HTMLDivElement>(null);
         function scrollToRowByRowKey(defaultKey: string | number) {
             const telememt = sysTableRef.current?.querySelector(
@@ -203,7 +230,7 @@ const SysTable = React.forwardRef(
                     const nrows = [data];
                     setSelected(({ keys, rows }) => {
                         if (keys[0] !== nkeys[0]) {
-                            onSelectChange?.(nkeys, nrows);
+                            // onSelectChange?.(nkeys, nrows);
                             return { keys: nkeys, rows: nrows };
                         }
                         return { keys, rows };
@@ -221,7 +248,7 @@ const SysTable = React.forwardRef(
             selectedRowKeys: selected.keys,
             onChange: (keys: any[], rows: any[]) => {
                 setSelected({ keys, rows });
-                onSelectChange?.(keys, rows);
+                // onSelectChange?.(keys, rows);
             },
             renderCell: (
                 checked: boolean,
@@ -271,7 +298,11 @@ const SysTable = React.forwardRef(
         };
 
         return (
-            <div className="sys-table-wrap" style={{ ...styleWrap }} ref={ref as React.LegacyRef<HTMLDivElement>}>
+            <div
+                className="sys-table-wrap"
+                style={{ ...styleWrap }}
+                ref={ref as React.LegacyRef<HTMLDivElement>}
+            >
                 <div
                     ref={sysTableRef}
                     className="sys-table"

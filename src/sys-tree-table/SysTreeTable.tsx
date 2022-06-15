@@ -12,7 +12,7 @@ type ExpandableConfig = SysTableProps['expandable'];
 export interface SysTreeTableColumn extends SysTableColumnType {}
 export function SysTreeTableColumnApi(p: SysTreeTableColumn) {}
 
-export interface SysTreeTableProps extends Omit<SysTableProps, 'expandable'|'defaultKeys'> {
+export interface SysTreeTableProps extends Omit<SysTableProps, 'expandable' | 'defaultKeys'> {
     /**
      * @description 指定展开图标所在列的dataIndex
      * @default -
@@ -24,11 +24,6 @@ export interface SysTreeTableProps extends Omit<SysTableProps, 'expandable'|'def
      */
     defaultExpandLevel?: number | 'all';
     /**
-     * @description 选中项的key（对应rowKey值）,只支持单个值
-     * @default -
-     */
-    selectedKeys?: string | number;
-    /**
      * @description checkable 状态下,复选框勾选类型:正常(不联动), 联动,半联动
      * @default normal
      */
@@ -37,7 +32,7 @@ export interface SysTreeTableProps extends Omit<SysTableProps, 'expandable'|'def
      * @description 指定数据根节点（第一级）父id,
      * @default '0'
      */
-     rootPid?: string;
+    rootPid?: string;
     /**
      * @description 点击展开图标时触发
      * @default -
@@ -65,7 +60,7 @@ function SysTreeTable({
     rowNumber,
     expandColumnDataIndex,
     defaultExpandLevel = 0,
-    selectedKeys,
+    triggerSelectedKeys,
     checkboxType = 'normal',
     rootPid = '0',
     rowKey = 'id',
@@ -75,13 +70,13 @@ function SysTreeTable({
 }: SysTreeTableProps) {
     /** tree转map */
     const treeDataMap = useMemo(() => {
-        if(dataSource && dataSource.length>0){
-            return treeData2Map(dataSource as Record<string,any>[] ,{
-                idField:rowKey,
-                rootPid
+        if (dataSource && dataSource.length > 0) {
+            return treeData2Map(dataSource as Record<string, any>[], {
+                idField: rowKey,
+                rootPid,
             });
         }
-        return undefined
+        return undefined;
     }, [dataSource]);
 
     /** 指定展开图标所在列 */
@@ -101,12 +96,15 @@ function SysTreeTable({
 
     /** 默认展开层级 */
     useEffect(() => {
-        if(!treeDataMap) return ;
+        if (!treeDataMap) return;
         if (defaultExpandLevel && typeof defaultExpandLevel === 'number') {
             const expandedKeys: string[] = [];
             for (let dataId in treeDataMap) {
                 const dataItem = treeDataMap[dataId];
-                if (dataItem.level <= defaultExpandLevel && !expandedKeys.includes(dataItem[rowKey])) {
+                if (
+                    dataItem.level <= defaultExpandLevel &&
+                    !expandedKeys.includes(dataItem[rowKey])
+                ) {
                     expandedKeys.push(dataItem[rowKey]);
                 }
             }
@@ -117,11 +115,10 @@ function SysTreeTable({
     }, [treeDataMap]);
 
     /** 选中定位操作 */
-    const [defaultKeys, setDefaultKeys] = useState<string | number>();
     useEffect(() => {
-        if (selectedKeys !== undefined && treeDataMap) {
+        if (triggerSelectedKeys && treeDataMap) {
             const expandedKeys: (string | number)[] = [];
-            let id = selectedKeys;
+            let id = triggerSelectedKeys[0];
             while (id !== rootPid && treeDataMap[id]) {
                 expandedKeys.push(id);
                 id = treeDataMap[id].pid;
@@ -130,9 +127,8 @@ function SysTreeTable({
             setExpandedRowKeys((prev) => {
                 return [...prev, ...expandedKeys];
             });
-            setDefaultKeys(selectedKeys);
         }
-    }, [selectedKeys,treeDataMap]);
+    }, [treeDataMap]);
 
     /** 勾选操作 */
     const rowSelection = {
@@ -142,6 +138,10 @@ function SysTreeTable({
         if (keys.length === 1 && treeDataMap ) {
             const selectKey = keys[0];
             const select = treeDataMap[selectKey];
+            if(!select){
+                onSelectChange?.([], []);
+                return ;
+            }
             const selectPid = select.pid;
             const parent = treeDataMap[selectPid];
             const allSiblings = parent ? parent.children : dataSource;
@@ -172,23 +172,22 @@ function SysTreeTable({
     const expandable: ExpandableConfig = {
         expandIconColumnIndex,
         expandedRowKeys,
-        // onExpand:onExpandHandler,
         onExpandedRowsChange: onExpandedChange,
     };
 
     function onExpandedChange(expandedKeys: any) {
         setExpandedRowKeys(expandedKeys);
     }
-
     return (
         <SysTable
+            isTree={true}
             dataSource={dataSource}
             rowKey={rowKey}
             columns={columns}
             rowNumber={rowNumber}
             expandable={expandable}
             rowSelection={rowSelection}
-            defaultKeys={defaultKeys}
+            triggerSelectedKeys={triggerSelectedKeys}
             onSelectChange={onSelectChangeHandler}
             {...rest}
         />
