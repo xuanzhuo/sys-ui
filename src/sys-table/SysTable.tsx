@@ -150,6 +150,7 @@ export interface SysTableProps extends TableProps<any> {
     /**
      * @description 是否支持树形
      * @default false
+     * @type hidden
      */
     isTree?: boolean;
 }
