@@ -46,7 +46,7 @@ export interface SysDataPickerProps extends Omit<Base, 'defaultPickerValue'> {
      * @description 时间发生变化的回调
      * @default -
      */
-    onChange?: <Props>(props: Props, datastring: string) => void;
+    onChange?: (datastring: string) => void;
     /**
      * @description 点击确定按钮回调
      * @default -
