@@ -1,7 +1,7 @@
 import { SysDataPicker } from 'sys-ui';
 import React from 'react';
-function onChange<T>(moment: T, datastring: string) {
-    console.log(moment);
+function onChange<T>( datastring: string) {
+ 
     console.log(datastring)
 }
 
