@@ -8,7 +8,7 @@ import ResizableColTable from './ResizableColTable';
 
 export type {SysTableProps,SysTableColumnType}
 
-function AdvancedTable({ resizable = false, ...rest }: SysTableProps) {
+function AdvancedTable({ resizable = true, ...rest }: SysTableProps) {
     if(resizable){
         return <ResizableColTable {...rest}/>
     }

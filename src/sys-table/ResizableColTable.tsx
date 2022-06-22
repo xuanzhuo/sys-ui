@@ -153,6 +153,7 @@ function ResizableColTable({
                 const nextWidth = index + 1 < colWidths.length ? colWidths[index + 1] : 0;
                 const maxWidth = width + nextWidth;
                 return {
+                    ellipsis:item.ellipsis === undefined?true:item.ellipsis,
                     ...item,
                     width,
                     minWidth,

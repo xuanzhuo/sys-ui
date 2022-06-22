@@ -144,7 +144,7 @@ export interface SysTableProps extends TableProps<any> {
     components?: TableProps<any>['components'];
     /**
      * @description 是否开启拖动改变列宽
-     * @default false
+     * @default true
      */
     resizable?: boolean;
     /**
