@@ -148,6 +148,11 @@ export interface SysTableProps extends TableProps<any> {
      */
     resizable?: boolean;
     /**
+     * @description 拖动改变列宽时是否自适应容器宽度
+     * @default true
+     */
+    resizableFit?: boolean;
+    /**
      * @description 是否支持树形
      * @default false
      * @type hidden

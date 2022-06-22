@@ -7,16 +7,21 @@ const columns: SysTableColumnType[] = [
     {
         title: '姓名',
         dataIndex: 'name',
-        width: 200,
+        width: '20%',
+        ellipsis:true
     },
     {
         title: '年龄',
         dataIndex: 'age',
+        width: '20%',
         minWidth: 200,
+        ellipsis:true
     },
     {
         title: '性别',
         dataIndex: 'sex',
+        width: '60%',
+        ellipsis:true
     },
 ];
 const data = createData(10);
