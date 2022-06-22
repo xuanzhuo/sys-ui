@@ -32,6 +32,9 @@ group:
 <code src="./demo/password.tsx">
 ### 密码框
 
+### 数字输入框
+<code src="./demo/number.tsx">
+
 ## API
 
 ### SysInput
