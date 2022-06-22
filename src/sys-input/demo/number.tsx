@@ -1,15 +1,15 @@
 import React from 'react';
-import SysNumber from '../Number';
+import { SysInput } from 'sys-ui';
 
 export default () => {
     return (
         <>
             <span>浮点数</span>
-            <SysNumber isFloat></SysNumber>
+            <SysInput.SysNumber isFloat></SysInput.SysNumber>
             <br />
             <br />
             <span>整数</span>
-            <SysNumber></SysNumber>
+            <SysInput.SysNumber></SysInput.SysNumber>
         </>
     );
 };
