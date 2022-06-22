@@ -18,11 +18,11 @@ group:
 
 <code src="./demo/base.tsx">
 
-### 范围选择
+<!-- ### 范围选择
 <code src="./demo/RangePicker.tsx">
 
 ### 回显
-<code src="./demo/show.tsx">
+<code src="./demo/show.tsx"> -->
 
 ## API
 

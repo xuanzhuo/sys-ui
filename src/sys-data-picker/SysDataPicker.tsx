@@ -7,31 +7,27 @@ import { DatePicker } from 'antd';
 import { SysDataPickerProps } from './interface';
 import SysRangePicker from './SysRangePicker';
 import moment, { Moment } from 'moment';
-function SysDataPicker({ value, format, onChange, placeholder, ...rest }: SysDataPickerProps) {
+function SysDataPicker({
+    value,
+    format,
+    onChange,
+    picker,
+    placeholder,
+    ...rest
+}: SysDataPickerProps) {
     let [val, setVal] = useState<any>(value);
     let [newValue, setNewValue] = useState<Moment | null>();
 
-    useEffect(() => {
-        let newValue = getNewValue();
-        setNewValue(newValue);
-    }, [val]);
 
-    function getNewValue() {
-        // console.log('value', value);
-        let newValue = val;
-        let dateFormat = format as string;
-        if (typeof val === 'string' && !!val) {
-            newValue = moment(val, dateFormat);
-        }
-        return newValue;
-    }
 
     let newplaceholder = placeholder;
     if (!placeholder) {
         newplaceholder = '';
     }
     function newOnChange(_: Moment | null, dataString: string) {
+        // console.log('Moment', _);
         setVal(dataString);
+        setNewValue(_);
         onChange?.(dataString);
     }
     return (
@@ -40,6 +36,7 @@ function SysDataPicker({ value, format, onChange, placeholder, ...rest }: SysDat
             placeholder={newplaceholder}
             value={newValue as Moment}
             onChange={newOnChange}
+            picker={picker}
         ></DatePicker>
     );
 }

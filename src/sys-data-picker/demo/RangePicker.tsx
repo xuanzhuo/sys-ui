@@ -2,8 +2,8 @@ import React from 'react';
 import {SysDataPicker} from 'sys-ui';
 let { RangePicker } = SysDataPicker;
 function onChange<T>(values: T, datastring: [string, string]) {
-    console.log(values);
-    console.log(datastring);
+    // console.log(values);
+    // console.log(datastring);
 }
 
 export default () => (
