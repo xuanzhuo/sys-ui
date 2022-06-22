@@ -1,6 +1,6 @@
 import { Button } from 'antd';
 import React, { useState } from 'react';
-import SysDrawer from '../SysDrawer';
+import {SysDrawer} from 'sys-ui';
 const App: React.FC = () => {
     const [visible, setVisible] = useState(false);
     const [childrenDrawer, setChildrenDrawer] = useState(false);

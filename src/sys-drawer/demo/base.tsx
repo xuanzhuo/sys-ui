@@ -1,4 +1,4 @@
-import SysDrawer from '../SysDrawer';
+import {SysDrawer} from 'sys-ui';
 import { Button } from 'antd';
 import React, { useState } from 'react';
 
