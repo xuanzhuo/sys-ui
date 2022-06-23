@@ -159,7 +159,7 @@ function SysTreeTable({
                             : allSiblings[selectIndex + 1];
                 }
             }
-            onSelectChange?.(keys, rows, {
+            onSelectChange?.(keys, [select], {
                 parent,
                 prev,
                 next,

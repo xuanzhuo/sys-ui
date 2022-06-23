@@ -6,10 +6,12 @@ const columns: SysTreeTableColumn[] = [
     {
         title: '姓名',
         dataIndex: 'name',
+        width:'50%'
     },
     {
         title: '年龄',
         dataIndex: 'age',
+        width:'50%'
     },
 ];
 const data = createData(2, 3);
