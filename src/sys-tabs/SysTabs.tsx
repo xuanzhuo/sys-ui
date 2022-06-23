@@ -24,22 +24,22 @@ export interface SysTabsProps {
      * @description 点击标签刷新当前标签页（默认开启）
      * @default true
      */
-    tabClickRefresh?:boolean;
+    tabClickRefresh?: boolean;
     /**
      * @description 标签页是否可关闭
      * @default false
      */
-    tabClosable?:boolean;
+    tabClosable?: boolean;
     /**
      * @description 页签位置
      * @default top
      */
-    tabPosition?:'top'|'left';
+    tabPosition?: 'top' | 'left';
     /**
      * @description 标签关闭回调
      * @default -
      */
-    onClosed?:(index:number)=>void;
+    onClosed?: (index: number) => void;
     /**
      * @description 放置tab页签项
      * @default -
@@ -54,24 +54,24 @@ function SysTabs({
     tabClosable = false,
     tabPosition = 'top',
     onClosed,
-    children 
+    children,
 }: SysTabsProps) {
     const [activeKey, setActiveKey] = useState('0');
-    useEffect(()=>{
-        function getDefaultIndex(){
-            if(storageId && localStorage.getItem(storageId)){
+    useEffect(() => {
+        function getDefaultIndex() {
+            if (storageId && localStorage.getItem(storageId)) {
                 return String(localStorage.getItem(storageId));
             }
-            return String(activeIndex)
+            return String(activeIndex);
         }
         setActiveKey(getDefaultIndex());
-    },[activeIndex])
-    
-    useEffect(()=>{
-        if(storageId){
-            localStorage.setItem(storageId,activeKey)
+    }, [activeIndex]);
+
+    useEffect(() => {
+        if (storageId) {
+            localStorage.setItem(storageId, activeKey);
         }
-    },[activeKey])
+    }, [activeKey]);
 
     const [isShow, setIsShow] = useState(true);
     useEffect(() => {
@@ -80,12 +80,11 @@ function SysTabs({
 
     const [tabPanes, setTabPanes] = useState<SysTabPaneProps[]>([]);
     useEffect(() => {
-        const childrenArr = children instanceof Array?children:[children];
+        const childrenArr = children instanceof Array ? children : [children];
         const tabPanes = childrenArr
             .filter((node: React.ReactNode) => {
                 return (
-                    React.isValidElement(node) &&
-                    typeof node.type === 'function' 
+                    React.isValidElement(node) && typeof node.type === 'function'
                     //&&node.type.name === 'SysTabPane'
                 );
             })
@@ -95,23 +94,27 @@ function SysTabs({
                 };
             });
         setTabPanes(tabPanes);
-        if(Number(activeKey) >= tabPanes.length){
-            setActiveKey('0')
+        if (Number(activeKey) >= tabPanes.length) {
+            setActiveKey('0');
         }
-    },[children,activeKey]);
+    }, [children, activeKey]);
 
     function onChange(key: string) {
         setActiveKey(key);
     }
 
     function onTabClick(key: string) {
-        if(tabClickRefresh) setIsShow(false);
+        if (tabClickRefresh) {
+            setTimeout(() => {
+                setIsShow(false);
+            }, 16);
+        }
     }
 
-    function onEdit(key:any){
-        onClosed?.(Number(key))
+    function onEdit(key: any) {
+        onClosed?.(Number(key));
     }
-    
+
     return (
         <Tabs
             hideAdd
@@ -119,7 +122,7 @@ function SysTabs({
             activeKey={activeKey}
             onChange={onChange}
             onTabClick={onTabClick}
-            type={tabClosable?'editable-card':'line'}
+            type={tabClosable ? 'editable-card' : 'line'}
             tabPosition={tabPosition}
             onEdit={onEdit}
         >
