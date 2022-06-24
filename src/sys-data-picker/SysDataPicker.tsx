@@ -17,8 +17,15 @@ function SysDataPicker({
 }: SysDataPickerProps) {
     let [val, setVal] = useState<any>(value);
     let [newValue, setNewValue] = useState<Moment | null>();
-
-
+    useEffect(() => {
+        if (!picker) {
+            if (typeof val === 'string') {
+                let formatString: string = format ? (format as string) : 'YYYY-MM-DD';
+                let newValue = moment(val, formatString);
+                setNewValue(newValue);
+            }
+        }
+    }, []);
 
     let newplaceholder = placeholder;
     if (!placeholder) {

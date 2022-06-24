@@ -8,10 +8,12 @@ import SysInputProps from './input_interface';
 import TextArea from './TextArea';
 import SysPassword from './Password';
 import SysNumber from './Number';
+import Search from './Search';
 function SysInput({ ...rest }: SysInputProps) {
     return <Input {...rest} />;
 }
 SysInput.TextArea = TextArea;
 SysInput.SysPassword = SysPassword;
 SysInput.SysNumber = SysNumber;
+SysInput.Search = Search;
 export default SysInput;

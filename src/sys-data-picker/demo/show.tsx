@@ -1,4 +1,4 @@
-import { SysDataPicker } from 'sys-ui';
+import SysDataPicker from '../SysDataPicker';
 import React, { useState } from 'react';
 
 export default () => {
