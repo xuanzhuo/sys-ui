@@ -5,8 +5,8 @@ nav:
     path: /components
     order: 0
 group:
-    path: /common
-    title: 通用
+    path: /modal
+    title: 反馈
     order: 1
 ---
 

@@ -5,8 +5,8 @@ nav:
     path: /components
     order: 0
 group:
-    path: /common
-    title: 通用
+    path: /showdata
+    title: 数据展示
     order: 1
 ---
 

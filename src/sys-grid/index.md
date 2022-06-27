@@ -5,8 +5,8 @@ nav:
     path: /components
     order: 0
 group:
-    path: /common
-    title: 通用
+    path: /grid
+    title: 布局
     order: 1
 ---
 
