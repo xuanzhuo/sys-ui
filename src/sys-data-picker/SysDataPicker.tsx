@@ -36,7 +36,7 @@ function SysDataPicker({
     function newOnChange(_: Moment | null, dataString: string) {
         // console.log('Moment', _);
         setVal(dataString);
-        setNewValue(_);
+        // setNewValue(_);
         onChange?.(dataString);
     }
     return (
