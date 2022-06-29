@@ -41,7 +41,7 @@ export interface SysDataPickerProps extends Omit<Base, 'defaultPickerValue'> {
      * @default -
      * @type moment|string
      */
-    value?: DatePickerProps['value'] | string;
+    value?: null | string;
     /**
      * @description 时间发生变化的回调
      * @default -

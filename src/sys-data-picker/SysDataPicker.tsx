@@ -16,34 +16,21 @@ function SysDataPicker({
     ...rest
 }: SysDataPickerProps) {
     let [val, setVal] = useState<any>(value);
-    let [newValue, setNewValue] = useState<Moment | null>();
+    // console.log('value', value);
     useEffect(() => {
-        if (!picker) {
-            if (typeof val === 'string') {
-                let formatString: string = format ? (format as string) : 'YYYY-MM-DD';
-                let newValue = moment(val, formatString);
-                setNewValue(newValue);
-            }
-        } else {
-            setNewValue(val);
-        }
-    }, [val]);
-    
-    let newplaceholder = placeholder;
-    if (!placeholder) {
-        newplaceholder = '';
-    }
+        // console.log('value', value);
+        newOnChange(null, value ? value : '');
+    }, [value]);
+
     function newOnChange(_: Moment | null, dataString: string) {
-        // console.log('Moment', _);
         setVal(dataString);
-        // setNewValue(_);
         onChange?.(dataString);
     }
     return (
         <DatePicker
             {...rest}
-            placeholder={newplaceholder}
-            value={newValue as Moment}
+            placeholder={placeholder ? placeholder : ''}
+            value={val ? moment(val, (format ? format : 'YYYY-MM-DD') as string) : null}
             onChange={newOnChange}
             picker={picker}
         ></DatePicker>
