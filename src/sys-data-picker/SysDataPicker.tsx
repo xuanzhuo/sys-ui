@@ -24,9 +24,11 @@ function SysDataPicker({
                 let newValue = moment(val, formatString);
                 setNewValue(newValue);
             }
+        } else {
+            setNewValue(val);
         }
-    }, []);
-
+    }, [val]);
+    
     let newplaceholder = placeholder;
     if (!placeholder) {
         newplaceholder = '';

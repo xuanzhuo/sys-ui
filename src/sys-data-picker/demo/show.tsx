@@ -12,6 +12,7 @@ export default () => {
     return (
         <div>
             <SysDataPicker value={value} onChange={onChange}></SysDataPicker>
+            <SysDataPicker value={null}></SysDataPicker>
         </div>
     );
 };
