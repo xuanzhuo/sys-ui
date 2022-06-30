@@ -21,6 +21,8 @@ export { default as SysTransfer } from './sys-transfer';
 export { default as SysTable } from './sys-table';
 export type { SysTableProps, SysTableColumnType } from './sys-table';
 export { default as SysTreeTable } from './sys-tree-table';
+export { default as SysTree } from './sys-tree';
+export type { SysTreeProps, SysTreeDataNode } from './sys-tree';
 export type { SysTreeTableProps, SysTreeTableColumn } from './sys-tree-table';
 export { default as SysPopover } from './sys-popver';
 export { default as SysText } from './sys-text';
