@@ -7,6 +7,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { TableProps } from 'antd';
 import SysTable, { SysTableProps, SysTableColumnType } from '../sys-table';
 import { treeData2Map } from '../sys-util';
+import './style/index.less';
 
 type ExpandableConfig = SysTableProps['expandable'];
 export interface SysTreeTableColumn extends SysTableColumnType {}
