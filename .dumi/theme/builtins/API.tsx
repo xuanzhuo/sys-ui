@@ -14,11 +14,24 @@ export default ({ identifier, export: expt }: IApiComponentProps) => {
     const data = useApiData(identifier);
     /** 过滤api属性 */
     const chineseReg = /[\u4e00-\u9fa5]+/;
-    const rowDatas =
+    let initRowDatas =
         data &&
-        data[expt].filter((row) => {
-            return chineseReg.test(row.description) && row.type !== 'hidden';
-        });
+        data[expt]
+            .filter((row) => {
+                return chineseReg.test(row.description) && row.type !== 'hidden';
+            })
+            .sort((a, b) => {
+                return a.identifier.localeCompare(b.identifier);
+            });
+    const props:any = [],events:any= [];
+    initRowDatas.forEach((item) => {
+        if(/^on[A-Za-z]+/.test(item.identifier)){
+            events.push(item)
+        }else{
+            props.push(item)
+        }
+    });
+    const rowDatas = [...props,...events];
     return (
         <>
             {data && (
