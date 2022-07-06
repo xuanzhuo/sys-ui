@@ -40,6 +40,10 @@ group:
 
 <code src="./demo/Resizable.tsx">
 
+## 列排序
+
+<code src="./demo/Sort.tsx">
+
 ## API
 
 ### SysTable

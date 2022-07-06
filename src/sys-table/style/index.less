@@ -56,9 +56,14 @@
         position: absolute;
         top:0;
         left:0;
-        z-index: 1;
+        z-index: 2;
     }
-
+    //单选模式下的选择列宽度不允许自动拉伸
+    &.sys-table-single-selection{
+        .ant-table-selection-col{
+            width: 0 !important;
+        }
+    }
 }
 
 .sys-table-pagination {

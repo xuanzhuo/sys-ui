@@ -4,7 +4,7 @@
  */
 import React, { useEffect, useRef, useState } from 'react';
 import { Table, TableProps, TableColumnType, Pagination, PaginationProps } from 'antd';
-import { isEqual } from 'lodash'
+import { isEqual } from 'lodash';
 import './style/index.less';
 
 export type SysRowSelection = TableProps<any>['rowSelection'];
@@ -158,17 +158,25 @@ export interface SysTableProps extends TableProps<any> {
      * @type hidden
      */
     isTree?: boolean;
+    /**
+     * @description 列排序(local前端排序,remote后端排序,none不排序)
+     * @default local
+     */
+    sort?: 'local' | 'remote' | 'none';
+    /**
+     * @description 列排序操作回调（用于远程数据排序）
+     * @default -
+     */
+    onSortChange?: (field: string, order: string) => void;
 }
 
-function usePrev(value:any){
+function usePrev(value: any) {
     const ref = useRef();
-    useEffect(()=>{
+    useEffect(() => {
         ref.current = value;
-    })
-    return ref.current
+    });
+    return ref.current;
 }
-
-
 
 const SysTable = React.forwardRef(
     (
@@ -184,6 +192,8 @@ const SysTable = React.forwardRef(
             single = false,
             triggerSelectedKeys,
             isTree = false,
+            sort = 'local',
+            onSortChange,
             onSelectChange,
             onRow,
             onPageChange,
@@ -199,14 +209,14 @@ const SysTable = React.forwardRef(
 
         /** 选中项滚动定位 */
         const prevTriggerSelectedKeys = usePrev(triggerSelectedKeys);
-        useEffect(()=>{
-            if(triggerSelectedKeys && !isEqual(triggerSelectedKeys,prevTriggerSelectedKeys)){
-                setSelected({keys:triggerSelectedKeys,rows:[]})
+        useEffect(() => {
+            if (triggerSelectedKeys && !isEqual(triggerSelectedKeys, prevTriggerSelectedKeys)) {
+                setSelected({ keys: triggerSelectedKeys, rows: [] });
                 scrollToRowByRowKey(triggerSelectedKeys[0]);
             }
-        },[triggerSelectedKeys]);
+        }, [triggerSelectedKeys]);
         //更新选中项
-        useEffect(()=>{
+        useEffect(() => {
             const { keys, rows } = selected;
             if (!isTree) {
                 const nrows =
@@ -218,7 +228,7 @@ const SysTable = React.forwardRef(
             } else {
                 onSelectChange?.(keys, rows);
             }
-        },[selected,dataSource]);
+        }, [selected, dataSource]);
 
         const sysTableRef = useRef<HTMLDivElement>(null);
         function scrollToRowByRowKey(defaultKey: string | number) {
@@ -249,7 +259,7 @@ const SysTable = React.forwardRef(
 
         const sysRowSelection: SysRowSelection = {
             ...rowSelection,
-            columnWidth: single ? 0 : 40,
+            columnWidth: single ? '0px' : 40,
             hideSelectAll: single,
             selectedRowKeys: selected.keys,
             onChange: (keys: any[], rows: any[]) => {
@@ -277,7 +287,7 @@ const SysTable = React.forwardRef(
             const pageSize = pagination && pagination.pageSize ? pagination.pageSize : 20;
             return { pageNum, pageSize };
         });
-        function onChange(pageNum: number, pageSize: number) {
+        function handlePageChange(pageNum: number, pageSize: number) {
             setPageInfo({ pageNum, pageSize });
             onPageChange?.(pageNum, pageSize);
         }
@@ -303,6 +313,35 @@ const SysTable = React.forwardRef(
             },
         };
 
+        //列处理（列排序,及过滤列）
+        const [sysColumns, setSysColumns] = useState<SysTableColumnType[]>();
+        useEffect(() => {
+            if (columns) {
+                const handleColumns = columns.map((item) => {
+                    const sorters = {
+                        local: (a: any, b: any) => {
+                            const astr = String(a[item.dataIndex as string]);
+                            const bstr = String(b[item.dataIndex as string]);
+                            return astr.localeCompare(bstr, 'zh-CN', { numeric: true });
+                        },
+                        remote: true,
+                        none: false,
+                    };
+                    return {
+                        sorter: item.dataIndex ? sorters[sort] : undefined,
+                        ...item,
+                    };
+                });
+                const sysColumns = rowNumber ? [rowNumberCol, ...handleColumns] : handleColumns;
+                setSysColumns(sysColumns);
+            }
+        }, [columns]);
+
+        function onChange(page: any, filters: any, sorter: any) {
+            const { field, order } = sorter;
+            onSortChange?.(field, order);
+        }
+
         return (
             <div
                 className="sys-table-wrap"
@@ -311,7 +350,7 @@ const SysTable = React.forwardRef(
             >
                 <div
                     ref={sysTableRef}
-                    className="sys-table"
+                    className={`sys-table ${single ? 'sys-table-single-selection' : ''}`}
                     style={{
                         height: `${pagination ? 'calc(100% - 48px)' : '100%'}`,
                     }}
@@ -321,12 +360,14 @@ const SysTable = React.forwardRef(
                         rowKey={(record) => record[rowKey]}
                         rowSelection={sysRowSelection}
                         pagination={false}
-                        columns={rowNumber ? [rowNumberCol, ...(columns ? columns : [])] : columns}
+                        columns={sysColumns}
                         scroll={{
                             x: minWidth ? minWidth : undefined,
                             y: `calc(100% - 36px)`,
                         }}
                         onRow={onRowHandler}
+                        showSorterTooltip={false}
+                        onChange={onChange}
                         {...rest}
                     />
                 </div>
@@ -338,7 +379,7 @@ const SysTable = React.forwardRef(
                             showQuickJumper
                             showSizeChanger
                             pageSizeOptions={[10, 20, 30, 40]}
-                            onChange={onChange}
+                            onChange={handlePageChange}
                             total={total}
                             locale={paginationlocale}
                         />
