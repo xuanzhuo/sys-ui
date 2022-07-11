@@ -11,7 +11,7 @@ const columns: SysTableColumnType[] = [
     {
         title: '年龄',
         dataIndex: 'age',
-        width:'30%'
+        width:'30%',
     },
     {
         title: 'a',
@@ -32,7 +32,7 @@ function Basic() {
     },[])
     return (
         <div style={{ height: 300 }}>
-            <SysTable dataSource={data} columns={col} sort="local"/>
+            <SysTable dataSource={data} columns={col} filter={true}/>
         </div>
     );
 }

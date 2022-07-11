@@ -44,13 +44,17 @@ group:
 
 <code src="./demo/Sort.tsx">
 
+## 列过滤
+
+<code src="./demo/Filter.tsx">
+
 ## API
 
 ### SysTable
-<API src="./SysTable.tsx" hideTitle exports='["default"]'></API>
+<API src="./AdvancedTable.tsx" hideTitle exports='["default"]'></API>
 
 ### Column
-<API src="./SysTable.tsx" hideTitle exports='["SysTableColumnTypeApi"]'></API>
+<API src="./AdvancedTable.tsx" hideTitle exports='["SysTableColumnTypeApi"]'></API>
 
 
 

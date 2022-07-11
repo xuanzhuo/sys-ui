@@ -3,16 +3,12 @@
  * @author sizz 2022-04-26
  */
 import React from 'react';
-import SysTable, { SysTableProps,SysTableColumnType } from './SysTable';
-import ResizableColTable from './ResizableColTable';
-
+import HandleColTable,{HanldeColTableProps as SysTableProps ,HanldeColTableColumnType as SysTableColumnType} from './HandleColTable';
 export type {SysTableProps,SysTableColumnType}
 
-function AdvancedTable({ resizable = true, ...rest }: SysTableProps) {
-    if(resizable){
-        return <ResizableColTable {...rest}/>
-    }
-    return <SysTable  {...rest}/>;
+export function SysTableColumnTypeApi(api:SysTableColumnType){}
+function AdvancedTable({...rest }: SysTableProps) {
+    return <HandleColTable  {...rest}/>;
 }
 
 export default AdvancedTable;

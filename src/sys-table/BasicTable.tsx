@@ -7,10 +7,7 @@ import { Table, TableProps, TableColumnType, Pagination, PaginationProps } from 
 import { isEqual } from 'lodash';
 import './style/index.less';
 
-export type SysRowSelection = TableProps<any>['rowSelection'];
-export type SysExpandable = TableProps<any>['expandable'];
-
-export interface SysTableColumnType extends Omit<TableColumnType<any>, 'onCellClick'> {
+export interface BasicTableColumnType extends Omit<TableColumnType<any>, 'onCellClick'> {
     /**
      * @description 列头显示文字
      * @default -
@@ -30,18 +27,12 @@ export interface SysTableColumnType extends Omit<TableColumnType<any>, 'onCellCl
      */
     width?: TableColumnType<any>['width'];
     /**
-     * @description 列最小宽度（拖动改变列列宽时使用）
-     * @default -
-     */
-    minWidth?: number;
-    /**
      * @description 设置列的对齐方式
      * @default left
      * @type 'left' | 'center' | 'right'
      */
     align?: TableColumnType<any>['align'];
 }
-export function SysTableColumnTypeApi(p: SysTableColumnType) {}
 
 export interface TablePaginationProps extends PaginationProps {
     /**
@@ -61,7 +52,7 @@ export interface TablePaginationProps extends PaginationProps {
     total?: number;
 }
 
-export interface SysTableProps extends TableProps<any> {
+export interface BasicTableProps extends TableProps<any> {
     /**
      * @description 数据数组
      * @default -
@@ -73,12 +64,17 @@ export interface SysTableProps extends TableProps<any> {
      * @default -
      * @type ColumnsType[]
      */
-    columns?: SysTableColumnType[];
+    columns?: TableProps<any>['columns'];
     /**
      * @description 外层样式
      * @default -
      */
     styleWrap?: React.CSSProperties;
+    /**
+     * @description 内层容器class
+     * @default -
+     */
+    className?: string;
     /**
      * @description 分页设置
      * @default undefined
@@ -129,29 +125,19 @@ export interface SysTableProps extends TableProps<any> {
      * @default -
      * @type SysRowSelection
      */
-    rowSelection?: SysRowSelection;
+    rowSelection?: TableProps<any>['rowSelection'];
     /**
      * @description 配置展开属性
      * @default -
      * @type SysExpandable
      */
-    expandable?: SysExpandable;
+    expandable?: TableProps<any>['expandable'];
     /**
      * @description 覆盖默认的 table 元素
      * @default -
      * @type TableComponents
      */
     components?: TableProps<any>['components'];
-    /**
-     * @description 是否开启拖动改变列宽
-     * @default true
-     */
-    resizable?: boolean;
-    /**
-     * @description 拖动改变列宽时是否自适应容器宽度
-     * @default true
-     */
-    resizableFit?: boolean;
     /**
      * @description 是否支持树形
      * @default false
@@ -178,7 +164,7 @@ function usePrev(value: any) {
     return ref.current;
 }
 
-const SysTable = React.forwardRef(
+const BasicTable = React.forwardRef(
     (
         {
             styleWrap,
@@ -198,7 +184,7 @@ const SysTable = React.forwardRef(
             onRow,
             onPageChange,
             ...rest
-        }: SysTableProps,
+        }: BasicTableProps,
         ref,
     ) => {
         /** 选择操作封装 */
@@ -257,7 +243,7 @@ const SysTable = React.forwardRef(
             };
         }
 
-        const sysRowSelection: SysRowSelection = {
+        const sysRowSelection: BasicTableProps['rowSelection'] = {
             ...rowSelection,
             columnWidth: single ? '0px' : 40,
             hideSelectAll: single,
@@ -299,7 +285,7 @@ const SysTable = React.forwardRef(
         }, [pagination?.total]);
 
         /** 序号列封装 */
-        const rowNumberCol: SysTableColumnType = {
+        const rowNumberCol: BasicTableColumnType = {
             title: <div style={{ width: 35, textAlign: 'center' }}>序号</div>,
             width: 55,
             dataIndex: 'numberCol',
@@ -390,4 +376,4 @@ const SysTable = React.forwardRef(
     },
 );
 
-export default SysTable;
+export default BasicTable;
