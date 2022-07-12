@@ -144,16 +144,6 @@ export interface BasicTableProps extends TableProps<any> {
      * @type hidden
      */
     isTree?: boolean;
-    /**
-     * @description 列排序(local前端排序,remote后端排序,none不排序)
-     * @default local
-     */
-    sort?: 'local' | 'remote' | 'none';
-    /**
-     * @description 列排序操作回调（用于远程数据排序）
-     * @default -
-     */
-    onSortChange?: (field: string, order: string) => void;
 }
 
 function usePrev(value: any) {
@@ -178,8 +168,6 @@ const BasicTable = React.forwardRef(
             single = false,
             triggerSelectedKeys,
             isTree = false,
-            sort = 'local',
-            onSortChange,
             onSelectChange,
             onRow,
             onPageChange,
@@ -298,36 +286,7 @@ const BasicTable = React.forwardRef(
                 );
             },
         };
-
-        //列处理（列排序,及过滤列）
-        const [sysColumns, setSysColumns] = useState<SysTableColumnType[]>();
-        useEffect(() => {
-            if (columns) {
-                const handleColumns = columns.map((item) => {
-                    const sorters = {
-                        local: (a: any, b: any) => {
-                            const astr = String(a[item.dataIndex as string]);
-                            const bstr = String(b[item.dataIndex as string]);
-                            return astr.localeCompare(bstr, 'zh-CN', { numeric: true });
-                        },
-                        remote: true,
-                        none: false,
-                    };
-                    return {
-                        sorter: item.dataIndex ? sorters[sort] : undefined,
-                        ...item,
-                    };
-                });
-                const sysColumns = rowNumber ? [rowNumberCol, ...handleColumns] : handleColumns;
-                setSysColumns(sysColumns);
-            }
-        }, [columns]);
-
-        function onChange(page: any, filters: any, sorter: any) {
-            const { field, order } = sorter;
-            onSortChange?.(field, order);
-        }
-
+        
         return (
             <div
                 className="sys-table-wrap"
@@ -346,14 +305,12 @@ const BasicTable = React.forwardRef(
                         rowKey={(record) => record[rowKey]}
                         rowSelection={sysRowSelection}
                         pagination={false}
-                        columns={sysColumns}
+                        columns={rowNumber ? [rowNumberCol, ...(columns ? columns : [])] : columns}
                         scroll={{
                             x: minWidth ? minWidth : undefined,
                             y: `calc(100% - 36px)`,
                         }}
                         onRow={onRowHandler}
-                        showSorterTooltip={false}
-                        onChange={onChange}
                         {...rest}
                     />
                 </div>
