@@ -22,7 +22,15 @@ function Pagination() {
     useEffect(() => {
         //后台接口取数据
         setTimeout(()=>{
-            setData(createData(10));
+            const data: DataType[] = new Array(pageInfo.size).fill('').map((item: DataType, index) => {
+                return {
+                    id: `item${pageInfo.current}-${index}`,
+                    name: `name${pageInfo.current}-${index}`,
+                    age: Math.floor(Math.random() * 2) + 17,
+                    sex:'男',
+                };
+            });
+            setData(data);
             setTotal(100);
         },100)
     }, [pageInfo]);
@@ -30,12 +38,13 @@ function Pagination() {
     function onPageChange(current: number, size: number) {
         setPageInfo({ current, size });
     }
+
     return (
         <div style={{ height: 300 }}>
             <SysTable
                 dataSource={data}
                 columns={columns}
-                pagination={{ total: total }}
+                pagination={{ total,current:pageInfo.current,pageSize:pageInfo.size }}
                 onPageChange={onPageChange}
             />
         </div>

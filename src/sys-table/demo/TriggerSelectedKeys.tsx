@@ -19,7 +19,7 @@ const columns: SysTableColumnType[] = [
 
 function DefaultKeyComp() {
     const [dataSource, setDataSource] = useState<DataType[]>(data);
-    const [defaultKeys, setDefaultKeys] = useState<any>(undefined);
+    const [triggerSelectedKeys, setTriggerSelectedKeys] = useState<React.Key[]>();
     const [selected, setSelected] = useState<any>({keys:[],rows:[]});
     
     function add() {
@@ -29,7 +29,7 @@ function DefaultKeyComp() {
             age: 18,
         };
         setDataSource([...dataSource, newStu]);
-        setDefaultKeys(dataSource.length);
+        setTriggerSelectedKeys([dataSource.length]);
     }
     function edit() {
         const ndataSource = dataSource.map(item=>{
@@ -43,9 +43,8 @@ function DefaultKeyComp() {
     function del() {
         const ndataSource = dataSource.filter(item=>item.id !== selected.keys[0]);
         setDataSource(ndataSource);
-        setDefaultKeys(undefined);
     }
-    function onSelectChange(keys:number[],rows:DataType[]){
+    function onSelectChange(keys:(number|string)[],rows:DataType[]){
         setSelected({keys,rows})
     }
     return (
@@ -59,7 +58,7 @@ function DefaultKeyComp() {
                 styleWrap={{ height: 'calc(100% - 32px)' }}
                 dataSource={dataSource}
                 columns={columns}
-                defaultKeys={defaultKeys}
+                triggerSelectedKeys={triggerSelectedKeys}
                 onSelectChange={onSelectChange}
             />
         </div>

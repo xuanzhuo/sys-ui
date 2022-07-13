@@ -30,7 +30,7 @@ group:
 
 ## 定位操作
 
-<code src="./demo/DefaultKey.tsx" title="定位操作" desc="暂只支持单值操作，带滚动条定位">
+<code src="./demo/TriggerSelectedKeys.tsx" title="定位操作" desc="暂只支持单值操作，带滚动条定位">
 
 ## 分页
 

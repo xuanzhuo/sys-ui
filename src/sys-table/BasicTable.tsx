@@ -104,12 +104,12 @@ export interface BasicTableProps extends TableProps<any> {
      * @description 触发选中项的key（对应rowKey值）,外部控制选中项
      * @default -
      */
-    triggerSelectedKeys?: string[];
+    triggerSelectedKeys?: React.Key[];
     /**
      * @description 选中项发生变化时的回调
      * @default -
      */
-    onSelectChange?: (keys: string[], rows: any[]) => void;
+    onSelectChange?: (keys: React.Key[], rows: any[]) => void;
     /**
      * @description 设置行属性
      * @default -
@@ -176,11 +176,10 @@ const BasicTable = React.forwardRef(
         ref,
     ) => {
         /** 选择操作封装 */
-        const [selected, setSelected] = useState<{ keys: string[]; rows: any[] }>({
+        const [selected, setSelected] = useState<{ keys: React.Key[]; rows: any[] }>({
             keys: triggerSelectedKeys || [],
             rows: [],
         });
-
         /** 选中项滚动定位 */
         const prevTriggerSelectedKeys = usePrev(triggerSelectedKeys);
         useEffect(() => {
@@ -206,10 +205,16 @@ const BasicTable = React.forwardRef(
 
         const sysTableRef = useRef<HTMLDivElement>(null);
         function scrollToRowByRowKey(defaultKey: string | number) {
-            const telememt = sysTableRef.current?.querySelector(
-                `tr[data-row-key = "${defaultKey}"]`,
-            );
-            telememt?.scrollIntoView({ block: 'nearest' });
+            (function loop(){
+                const telememt = sysTableRef.current?.querySelector(
+                    `tr[data-row-key = "${defaultKey}"]`,
+                );
+                if(telememt){
+                    telememt?.scrollIntoView({ block: 'nearest' });
+                }else{
+                    window.requestAnimationFrame(loop)
+                }
+            })()
         }
         function onRowHandler(data: any, index?: number) {
             const rowHandler = onRow?.(data, index) ? onRow?.(data, index) : {};
@@ -250,27 +255,27 @@ const BasicTable = React.forwardRef(
             },
         };
 
-        /** todo 分页 */
+        /** 分页 */
         const paginationlocale: PaginationProps['locale'] = {
             jump_to: '跳至',
             items_per_page: '/页',
             page: '页',
         };
-        const [pageInfo, setPageInfo] = useState(() => {
-            const pageNum = pagination && pagination.current ? pagination.current : 1;
-            const pageSize = pagination && pagination.pageSize ? pagination.pageSize : 20;
-            return { pageNum, pageSize };
-        });
+        const [pageInfo, setPageInfo] = useState<{ pageNum: number; pageSize: number }>();
         function handlePageChange(pageNum: number, pageSize: number) {
             setPageInfo({ pageNum, pageSize });
             onPageChange?.(pageNum, pageSize);
         }
         const [total, setTotal] = useState(0);
         useEffect(() => {
-            if (pagination && pagination.total !== undefined) {
-                setTotal(pagination?.total);
+            if (pagination) {
+                if (pagination?.total) {
+                    setTotal(pagination?.total);
+                }
+                const { current, pageSize } = pagination;
+                setPageInfo({ pageNum: current || 1, pageSize: pageSize || 20 });
             }
-        }, [pagination?.total]);
+        }, [pagination]);
 
         /** 序号列封装 */
         const rowNumberCol: BasicTableColumnType = {
@@ -286,7 +291,7 @@ const BasicTable = React.forwardRef(
                 );
             },
         };
-        
+
         return (
             <div
                 className="sys-table-wrap"
@@ -317,8 +322,8 @@ const BasicTable = React.forwardRef(
                 {pagination && (
                     <div className="sys-table-pagination">
                         <Pagination
-                            current={pageInfo.pageNum}
-                            pageSize={pageInfo.pageSize}
+                            current={pageInfo?.pageNum || 1}
+                            pageSize={pageInfo?.pageSize || 20}
                             showQuickJumper
                             showSizeChanger
                             pageSizeOptions={[10, 20, 30, 40]}

@@ -1,5 +1,5 @@
 export interface DataType {
-    id: number;
+    id: string|number;
     name: string;
     age: number;
 }
