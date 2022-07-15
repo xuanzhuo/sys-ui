@@ -10,7 +10,7 @@ interface Base {
      * @description 按钮图标（同 SysIcon 的 name 属性）-必填
      * @default -
      */
-    icon: string;
+    icon?: string;
     /**
      * @description 按钮禁用
      * @default false
