@@ -31,3 +31,5 @@ export { default as SysDrawer } from './sys-drawer';
 export type { SysDrawerProps } from './sys-drawer';
 export { default as SysTooltip } from './sys-tooltip';
 export type { SysTooltipProps } from './sys-tooltip';
+export { default as SysSwitch } from './sys-switch';
+export type { SysSwitchProps } from './sys-switch';
