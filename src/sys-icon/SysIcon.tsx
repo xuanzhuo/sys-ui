@@ -12,6 +12,11 @@ export interface SysIconProps {
      * @default -
      */
     onClick?: React.MouseEventHandler;
+    /**
+     * @description 是否有旋转动画
+     * @default false
+     */
+    spin?: boolean;
 }
 const scriptUrl = [
     '//at.alicdn.com/t/font_2271916_zd47uy9hsc.js',
@@ -20,8 +25,8 @@ const scriptUrl = [
 
 const IconFont = createFromIconfontCN({ scriptUrl });
 
-const SysIcon: React.FC<SysIconProps> = ({ name, onClick }) => {
-    return <IconFont type={`icon-${name}`} onClick={onClick} />;
+const SysIcon: React.FC<SysIconProps> = ({ name, onClick, ...rest }) => {
+    return <IconFont type={`icon-${name}`} onClick={onClick} {...rest} />;
 };
 
 export default SysIcon;
