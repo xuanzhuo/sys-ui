@@ -35,3 +35,5 @@ export { default as SysSwitch } from './sys-switch';
 export type { SysSwitchProps } from './sys-switch';
 export { default as SysProgress } from './sys-progress';
 export type { SysProgressProps } from './sys-progress';
+export { default as SysSpin } from './sys-spin';
+export type { SysSpinProps } from './sys-spin';
