@@ -5,7 +5,7 @@ nav:
     path: /components
     order: 0
 group:
-    path: /modal
+    path: /feedback
     title: 反馈
     order: 1
 ---

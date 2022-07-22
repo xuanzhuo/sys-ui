@@ -33,3 +33,5 @@ export { default as SysTooltip } from './sys-tooltip';
 export type { SysTooltipProps } from './sys-tooltip';
 export { default as SysSwitch } from './sys-switch';
 export type { SysSwitchProps } from './sys-switch';
+export { default as SysProgress } from './sys-progress';
+export type { SysProgressProps } from './sys-progress';
