@@ -20,7 +20,7 @@
   "module": "dist/index.esm.js",
   "typings": "dist/index.d.ts",
   "dependencies": {
-    "antd": "4.17.4",
+    "antd": "^4.21.7",
     "lodash": "^4.17.21",
     "rc-resize-observer": "^1.2.0",
     "react": "17.0.2",
