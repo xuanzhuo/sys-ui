@@ -1,12 +1,13 @@
-import InternalSysForm, { FormItem, FormInstance, useForm} from './SysForm';
+import { Form,FormInstance } from 'antd'
+import InternalSysForm  from './SysForm';
 import { twoColLayout, fourColLayout, halfFourColLayout, createLayout } from './formLayout';
 import { required, max, range } from './SysRules';
 
 type InternalSysFormType = typeof InternalSysForm;
 
 interface SysFormInterface extends InternalSysFormType {
-    FormItem: typeof FormItem;
-    useForm: typeof useForm;
+    FormItem: typeof Form.Item;
+    useForm: typeof Form.useForm;
     twoColLayout: typeof twoColLayout;
     fourColLayout: typeof fourColLayout;
     halfFourColLayout: typeof halfFourColLayout;
@@ -17,8 +18,8 @@ interface SysFormInterface extends InternalSysFormType {
 }
 
 const SysForm = InternalSysForm as SysFormInterface;
-SysForm.FormItem = FormItem
-SysForm.useForm = useForm
+SysForm.FormItem = Form.Item
+SysForm.useForm = Form.useForm
 
 //表单布局
 SysForm.twoColLayout = twoColLayout;
