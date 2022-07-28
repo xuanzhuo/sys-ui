@@ -13,7 +13,7 @@ export { default as SysInput } from './sys-input';
 export { default as SysSelect } from './sys-select';
 export { default as SysTreeSelect } from './sys-tree-select';
 export { default as SysCheckbox } from './sys-check-box';
-export { default as SysDataPicker } from './sys-data-picker';
+export { default as SysDatePicker } from './sys-date-picker';
 export { default as SysDropdown } from './sys-dropdown';
 export { default as SysButton } from './sys-button';
 export { default as SysTransfer } from './sys-transfer';
