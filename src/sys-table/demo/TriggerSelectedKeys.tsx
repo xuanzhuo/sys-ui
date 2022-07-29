@@ -1,27 +1,27 @@
-import React, {useState } from 'react';
+import React, { useState } from 'react';
 import { Button } from 'antd';
-import { SysTable,SysTableColumnType} from 'sys-ui';
-import {createData, DataType } from './data';
+import { SysTable, SysTableColumnType } from 'sys-ui';
+import { createData, DataType } from './data';
 
-const data:DataType[] = createData(10);
+const data: DataType[] = createData(10);
 const columns: SysTableColumnType[] = [
     {
         title: '姓名',
         dataIndex: 'name',
-        width:'50%'
+        width: '50%',
     },
     {
         title: '年龄',
         dataIndex: 'age',
-        width:'50%'
+        width: '50%',
     },
 ];
 
 function DefaultKeyComp() {
     const [dataSource, setDataSource] = useState<DataType[]>(data);
     const [triggerSelectedKeys, setTriggerSelectedKeys] = useState<React.Key[]>();
-    const [selected, setSelected] = useState<any>({keys:[],rows:[]});
-    
+    const [selected, setSelected] = useState<any>({ keys: [], rows: [] });
+
     function add() {
         const newStu: DataType = {
             id: dataSource.length,
@@ -32,20 +32,20 @@ function DefaultKeyComp() {
         setTriggerSelectedKeys([dataSource.length]);
     }
     function edit() {
-        const ndataSource = dataSource.map(item=>{
-            if(item.id === selected.keys[0]){
-                item.name = 'edit' + item.name
-            }
-            return item
+        const ndataSource = dataSource.map((item) => {
+            return {
+                ...item,
+                name: 'edit' + item.name,
+            };
         });
         setDataSource([...ndataSource]);
     }
     function del() {
-        const ndataSource = dataSource.filter(item=>item.id !== selected.keys[0]);
+        const ndataSource = dataSource.filter((item) => item.id !== selected.keys[0]);
         setDataSource(ndataSource);
     }
-    function onSelectChange(keys:(number|string)[],rows:DataType[]){
-        setSelected({keys,rows})
+    function onSelectChange(keys: (number | string)[], rows: DataType[]) {
+        setSelected({ keys, rows });
     }
     return (
         <div style={{ height: 300 }}>

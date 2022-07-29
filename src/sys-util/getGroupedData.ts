@@ -5,26 +5,25 @@
  * @returns
  */
 export function getGroupedDataArray(
-    dataArray: Record<string, any>[],
+    dataArray: readonly Record<string, any>[],
     {
-        groupedFiled,
+        groupFiled,
         idFiled,
         groupTitleFormat,
     }: {
-        groupedFiled: string;
+        groupFiled: string;
         idFiled?: string;
         groupTitleFormat?: (groupedFiledValue: string, total: number) => string;
     },
 ) {
     const groupedDataArray: any[] = [];
-    const groupedMap = getGroupedDataMap(dataArray, groupedFiled);
-
+    const groupedMap = getGroupedDataMap(dataArray, groupFiled);
     groupedMap.forEach((value, key) => {
         const groupedDataArrayItem = {
-            [idFiled || 'id']: `${key}`,
-            [groupedFiled]:
+            [idFiled || 'id']: `groupId-${key}`,
+            [groupFiled]:
                 (groupTitleFormat && groupTitleFormat(key, value.length)) ||
-                `'${key}(${value.length})'`,
+                `${key}（${value.length}）`,
             children: value,
         };
         groupedDataArray.push(groupedDataArrayItem);
@@ -38,7 +37,7 @@ export function getGroupedDataArray(
  * @param groupedFiled 分组依据的字段
  * @returns 以分组字段为key，对应分组后的数据为value的map
  */
-export function getGroupedDataMap(dataArray: Record<string, any>[], groupedFiled: string) {
+export function getGroupedDataMap(dataArray: readonly Record<string, any>[], groupedFiled: string) {
     const groupedMap = new Map<string, any[]>();
     for (let i = 0; i < dataArray.length; i++) {
         const item = dataArray[i];
@@ -47,6 +46,7 @@ export function getGroupedDataMap(dataArray: Record<string, any>[], groupedFiled
             groupedMap.set(groupedFiledValue, []);
         }
         const groupItems = groupedMap.get(groupedFiledValue) as any[];
+        groupItems.push(item);
         groupedMap.set(groupedFiledValue, groupItems);
     }
     return groupedMap;
