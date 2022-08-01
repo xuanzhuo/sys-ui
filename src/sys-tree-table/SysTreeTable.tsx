@@ -171,6 +171,7 @@ function SysTreeTable({
     }
 
     const expandable: ExpandableConfig = {
+        indentSize:16,
         expandIconColumnIndex,
         expandedRowKeys,
         onExpandedRowsChange: onExpandedChange,

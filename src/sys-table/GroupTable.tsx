@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import HandleColTable, { HanldeColTableProps, HanldeColTableColumnType } from './HandleColTable';
 import { getGroupedDataArray } from '../sys-util';
-
+import { MinusCircleTwoTone, PlusCircleTwoTone } from '@ant-design/icons';
 export interface GroupTableProps extends HanldeColTableProps {
     /**
      * @description 分组配置
@@ -42,7 +42,7 @@ function handleGroupColumns(columns: GroupTableColumnType[], groupFiled: string)
     return groupColumns;
 }
 
-function GroupTable({ group, dataSource, columns, rowKey, ...rest }: GroupTableProps) {
+function GroupTable({ group, dataSource, columns, rowKey, expandable, ...rest }: GroupTableProps) {
     const data = useMemo(() => {
         if (group && dataSource) {
             const { groupFiled, groupTitleFormat } = group;
@@ -68,6 +68,22 @@ function GroupTable({ group, dataSource, columns, rowKey, ...rest }: GroupTableP
             dataSource={group ? data : dataSource}
             columns={group ? cols : columns}
             single
+            expandable={{
+                indentSize:0,
+                expandIcon: ({ expanded, onExpand, record, expandable, prefixCls }) => {
+                    return (
+                        <span className="expand-icon">
+                            {expandable &&
+                                (expanded ? (
+                                    <MinusCircleTwoTone onClick={(e) => onExpand(record, e)} />
+                                ) : (
+                                    <PlusCircleTwoTone onClick={(e) => onExpand(record, e)} />
+                                ))}
+                        </span>
+                    );
+                },
+                ...expandable
+            }}
             {...rest}
         />
     );
