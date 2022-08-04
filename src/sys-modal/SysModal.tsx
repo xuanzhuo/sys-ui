@@ -3,12 +3,12 @@
  * @author sizz 2022-04-11
  */
 import React, { Children, useRef, useState } from 'react';
-import { Modal, Button } from 'antd';
+import { Modal, ModalProps, Button } from 'antd';
 import Draggable, { DraggableData, DraggableEvent } from 'react-draggable';
 import './style/index.less';
 import SysIcon from '../sys-icon';
 
-export interface SysModalProps {
+export interface SysModalProps extends ModalProps {
     /**
      * @description 标题
      * @default -
@@ -63,12 +63,12 @@ export interface SysModalProps {
      * @description 自定义底部按钮，用于扩展footer（footer内部都是按钮时），优先级低于footer
      * @default null
      */
-    buttonsProps?:ButtonProps[],
+    buttonsProps?: ButtonProps[];
     /**
      * @description 对话框是否可见
      * @default -
      */
-    visible?:boolean
+    visible?: boolean;
 }
 interface ButtonProps {
     /** 按钮类型 */
@@ -146,24 +146,24 @@ const SysModal: React.FC<SysModalProps> = ({
     }
     const footer = buttonsProps
         ? buttonsProps.map((item, index) => {
-            return (
-                <Button
-                    key={`sys-modal-button${index}`}
-                    type={item.type ?? 'default'}
-                    onClick={item.onClick}
-                >
-                    {item.text}
-                </Button>
-            );
-        })
+              return (
+                  <Button
+                      key={`sys-modal-button${index}`}
+                      type={item.type ?? 'default'}
+                      onClick={item.onClick}
+                  >
+                      {item.text}
+                  </Button>
+              );
+          })
         : [
-            <Button key="ok" type="primary" onClick={onOk}>
-                {okText ?? '确定'}
-            </Button>,
-            <Button key="cancel" onClick={onCancel}>
-                {cancelText ?? '取消'}
-            </Button>,
-        ];
+              <Button key="ok" type="primary" onClick={onOk}>
+                  {okText ?? '确定'}
+              </Button>,
+              <Button key="cancel" onClick={onCancel}>
+                  {cancelText ?? '取消'}
+              </Button>,
+          ];
     return (
         <Modal
             title={title ? titleCom : undefined}
