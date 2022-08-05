@@ -1,3 +1,6 @@
-import AdvancedTable,{SysTableProps,SysTableColumnType} from "./AdvancedTable";
-export type {SysTableProps,SysTableColumnType};
+import AdvancedTable, {
+    SysTableProps,
+    SysTableColumnType,
+} from './AdvancedTable';
+export type { SysTableProps, SysTableColumnType };
 export default AdvancedTable;

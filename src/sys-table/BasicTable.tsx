@@ -2,9 +2,10 @@
  * 表格
  * @author sizz 2022-04-18
  */
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Table, TableProps, TableColumnType, Pagination, PaginationProps } from 'antd';
 import { isEqual } from 'lodash';
+import { getTreeDepth } from '../sys-util';
 import './style/index.less';
 
 export interface BasicTableColumnType extends Omit<TableColumnType<any>, 'onCellClick'> {
@@ -175,6 +176,11 @@ const BasicTable = React.forwardRef(
         }: BasicTableProps,
         ref,
     ) => {
+        //表头列配置深度，用于表格高度自适应
+        const columnDepth = useMemo(() => {
+            return columns ? getTreeDepth(columns) : 1;
+        }, [columns]);
+
         /** 选择操作封装 */
         const [selected, setSelected] = useState<{ keys: React.Key[]; rows: any[] }>({
             keys: triggerSelectedKeys || [],
@@ -205,16 +211,16 @@ const BasicTable = React.forwardRef(
 
         const sysTableRef = useRef<HTMLDivElement>(null);
         function scrollToRowByRowKey(defaultKey: string | number) {
-            (function loop(){
+            (function loop() {
                 const telememt = sysTableRef.current?.querySelector(
                     `tr[data-row-key = "${defaultKey}"]`,
                 );
-                if(telememt){
+                if (telememt) {
                     telememt?.scrollIntoView({ block: 'nearest' });
-                }else{
-                    window.requestAnimationFrame(loop)
+                } else {
+                    window.requestAnimationFrame(loop);
                 }
-            })()
+            })();
         }
         function onRowHandler(data: any, index?: number) {
             const rowHandler = onRow?.(data, index) ? onRow?.(data, index) : {};
@@ -313,7 +319,7 @@ const BasicTable = React.forwardRef(
                         columns={rowNumber ? [rowNumberCol, ...(columns ? columns : [])] : columns}
                         scroll={{
                             x: minWidth ? minWidth : undefined,
-                            y: `calc(100% - 36px)`,
+                            y: `calc(100% - ${36 * columnDepth}px)`,
                         }}
                         onRow={onRowHandler}
                         {...rest}

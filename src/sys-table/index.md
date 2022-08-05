@@ -52,6 +52,10 @@ group:
 
 <code src="./demo/Group.tsx">
 
+## 表头分组（多层表头）
+
+<code src="./demo/ColumnsGroup.tsx">
+
 ## API
 
 ### SysTable

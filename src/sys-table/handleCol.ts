@@ -1,6 +1,4 @@
-import React from 'react';
 import { HanldeColTableColumnType } from './HandleColTable';
-import { Menu, MenuProps, Checkbox } from 'antd';
 
 /** 百分比字符串转数字 */
 function toNum(percent: string) {
@@ -45,58 +43,6 @@ export function handleSort(sort: 'local' | 'remote' | 'none', column: HanldeColT
         none: false,
     };
     return sorters[sort];
-}
-
-/** 列过滤处理 */
-export function handleFilter(
-    column: HanldeColTableColumnType,
-    columns: HanldeColTableColumnType[],
-) {
-    const hanleColumns: HanldeColTableColumnType[] = [];
-    columns.forEach((item, index) => {
-        if (!item.dataIndex) {
-            return;
-        }
-        if (index === 0) {
-            item.filterDisabled = true;
-        }
-        hanleColumns.push(item);
-    });
-    const filterDropdownFn: HanldeColTableColumnType['filterDropdown'] = ({
-        confirm,
-        selectedKeys,
-        setSelectedKeys,
-    }) => {
-        const FILTERMENU = 'filterMenu';
-        const onSelect: MenuProps['onSelect'] = ({ selectedKeys }) => {
-            setSelectedKeys(selectedKeys);
-            confirm?.();
-        };
-        const onDeselect: MenuProps['onDeselect'] = ({ selectedKeys }) => {
-            setSelectedKeys(selectedKeys);
-            confirm?.();
-        };
-        return (
-            <Menu
-                key={`${FILTERMENU}-${column.dataIndex}`}
-                multiple
-                selectedKeys={selectedKeys as string[]}
-                onSelect={onSelect}
-                onDeselect={onDeselect}
-            >
-                {hanleColumns.map((filterItem) => {
-                    const itemKey = `${filterItem.dataIndex}`;
-                    return (
-                        <Menu.Item key={itemKey} disabled={filterItem.filterDisabled || false}>
-                            <Checkbox checked={selectedKeys?.includes(itemKey)} />
-                            <span>{filterItem.title}</span>
-                        </Menu.Item>
-                    );
-                })}
-            </Menu>
-        );
-    };
-    return filterDropdownFn;
 }
 
 /** 列过滤与列宽拖拽的联动处理 */

@@ -42,7 +42,7 @@ function handleGroupColumns(columns: GroupTableColumnType[], groupFiled: string)
     return groupColumns;
 }
 
-function GroupTable({ group, dataSource, columns, rowKey, expandable, ...rest }: GroupTableProps) {
+function GroupTable({ group, dataSource, columns, rowKey, expandable,...rest }: GroupTableProps) {
     const data = useMemo(() => {
         if (group && dataSource) {
             const { groupFiled, groupTitleFormat } = group;

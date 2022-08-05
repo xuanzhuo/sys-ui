@@ -2,20 +2,15 @@
  * 列加工处理（列宽拖拽，列排序，列过滤）表格
  * @author sizz 2022-04-25
  */
-import React, { useRef, useState, useEffect } from 'react';
-import { isEqual } from 'lodash';
-import { FilterFilled } from '@ant-design/icons';
+import React, { useRef, useState, useEffect, useMemo } from 'react';
 import ResizeObserver from 'rc-resize-observer';
+import { isArray, cloneDeep } from 'lodash';
+import { getDeepestTreeNode } from '../sys-util';
+import { show } from '../sys-modal';
 import BasicTable, { BasicTableProps, BasicTableColumnType } from './BasicTable';
 import ResizableCell from './ResizableCell';
-import {
-    initColWidths,
-    fitColWidths,
-    handleSort,
-    handleFilter,
-    fitFilterColWidths,
-} from './handleCol';
-import { isArray } from 'lodash';
+import ColumnsFilterMenu from './ColumnsFilterMenu';
+import { initColWidths, fitColWidths, handleSort, fitFilterColWidths } from './handleCol';
 
 export interface HanldeColTableColumnType extends BasicTableColumnType {
     /**
@@ -28,13 +23,19 @@ export interface HanldeColTableColumnType extends BasicTableColumnType {
      * @default -
      */
     filterDisabled?: boolean;
+    /**
+     * @description 表头分组
+     * @default -
+     * @type SysTableColumnType[]
+     */
+    children?: HanldeColTableColumnType[];
 }
 
 export interface HanldeColTableProps extends Omit<BasicTableProps, 'columns'> {
     /**
      * @description 表格列的配置描述，具体项见下表
      * @default -
-     * @type ColumnsType[]
+     * @type SysTableColumnType[]
      */
     columns?: HanldeColTableColumnType[];
     /**
@@ -66,7 +67,7 @@ export interface HanldeColTableProps extends Omit<BasicTableProps, 'columns'> {
      * @description 列过滤操作回调
      * @default -
      */
-    onFilterChange?:()=>void
+    onFilterChange?: () => void;
 }
 
 function HanldeColTable({
@@ -78,13 +79,14 @@ function HanldeColTable({
     resizableFit = true,
     sort = 'none',
     filter = false,
+    bordered = false,
     onSortChange,
     ...rest
 }: HanldeColTableProps) {
     const sysTableRef = useRef<HTMLDivElement>(null);
     const handleCursorRef = useRef<any>();
     const dataRef = useRef<any>({});
-    const [resizableCols, setResizableCols] = useState<any>([{}]);
+    const [resizableCols, setResizableCols] = useState<any>();
     useEffect(() => {
         const offsetParent = sysTableRef.current?.querySelector('.ant-table');
         const handleCursor = document.createElement('div');
@@ -97,110 +99,115 @@ function HanldeColTable({
 
     //表格宽度变化
     const [tableWidth, setTableWidth] = useState(0);
-    function onResize({ width }: { width: number }) {
+    function onTableWidthResize({ width }: { width: number }) {
         //复选框
         let tWidth = single ? width : width - 40;
         //行序号列
         tWidth = rowNumber ? tWidth - 55 : tWidth;
         //滚动条
         tWidth = tWidth - 18;
+        //边框
+        tWidth = bordered ? tWidth - 1 : tWidth;
         setTableWidth(tWidth);
     }
+
     //内部接管columns
     const [innerColumns, setInnerColumns] = useState<HanldeColTableColumnType[]>();
     useEffect(() => {
         setInnerColumns(columns);
     }, [columns]);
 
+    //适应多层表头，获取最深层列配置
+    const deepestCols = useMemo(() => {
+        return innerColumns ? getDeepestTreeNode(innerColumns) : [];
+    }, [innerColumns]);
+
     useEffect(() => {
         if (innerColumns && tableWidth) {
             let colWidths: number[];
             if (dataRef.current.newColWidths) {
+                console.log(filter);
                 colWidths = dataRef.current.newColWidths;
                 if (filter && resizableFit) {
-                    colWidths = fitFilterColWidths(dataRef.current.newColWidthMap, innerColumns, tableWidth,columns||[]);
-                }else if(resizableFit) {
+                    colWidths = fitFilterColWidths(
+                        dataRef.current.newColWidthMap,
+                        deepestCols,
+                        tableWidth,
+                        columns || [],
+                    );
+                } else if (resizableFit) {
                     colWidths = fitColWidths(dataRef.current.newColWidths, tableWidth);
                 }
             } else {
-                colWidths = initColWidths(innerColumns, tableWidth);
-                if (filter && resizableFit) {
+                colWidths = initColWidths(deepestCols, tableWidth);
+                if (resizableFit) {
                     colWidths = fitColWidths(colWidths, tableWidth);
                 }
             }
-            const rCols = innerColumns.map((item, index) => {
+            deepestCols.forEach((item, index) => {
                 const minWidth: number = item.minWidth ? item.minWidth : 1;
                 const width = colWidths[index];
                 const nextWidth = index + 1 < colWidths.length ? colWidths[index + 1] : 0;
                 const maxWidth = width + nextWidth;
-                const filterConfig = filter
-                    ? {
-                          filterDropdown: handleFilter(item, columns || []),
-                          filteredValue: innerColumns.map((item) => `${item.dataIndex}`),
-                          filterMultiple: false,
-                          filterIcon: () => {
-                              return <FilterFilled style={{ color: '#bfbfbf' }} />;
-                          },
-                      }
-                    : {};
-                return {
-                    ellipsis: item.ellipsis === undefined ? true : item.ellipsis,
-                    sorter: handleSort(sort, item),
-                    ...filterConfig,
-                    ...item,
-                    width,
-                    minWidth,
-                    maxWidth,
-                    onHeaderCell: (column: any) => {
-                        const { width, minWidth, maxWidth } = column;
-                        return {
-                            resizable,
-                            width,
-                            minWidth,
-                            maxWidth: resizableFit ? maxWidth : 2000,
-                            disabled: resizableFit && colWidths.length === index + 1,
-                            index,
-                            sysTableRef,
-                            handleCursorRef,
-                            onResize: onResize,
-                        };
-                    },
-                };
-            });
-            setResizableCols([...rCols, {}]);
 
-            function onResize(index: number, width: number) {
-                let newColWidths: number[];
-                if (resizableFit) {
-                    const deltaWidth = rCols[index].width - width;
-                    newColWidths = rCols.map((item, i) => {
-                        const itemWidth = item.width;
-                        if (i === index) {
-                            return width;
-                        }
-                        if (i === index + 1) {
-                            return itemWidth + deltaWidth;
-                        }
-                        return itemWidth;
-                    });
-                    const newColWidthMap: Record<string, number> = {};
-                    rCols.forEach((item, i) => {
-                        item.width = newColWidths[i];
-                        newColWidthMap[item.dataIndex as string] = item.width;
-                        const nextWidth = i + 1 < newColWidths.length ? newColWidths[i + 1] : 0;
-                        item.maxWidth = newColWidths[i] + nextWidth;
-                    });
-                    dataRef.current.newColWidths = newColWidths;
-                    dataRef.current.newColWidthMap = newColWidthMap;
-                } else {
-                    rCols[index].width = width;
-                    newColWidths = rCols.map((item) => item.width);
-                }
-                dataRef.current.newColWidths = newColWidths;
-                setResizableCols([...rCols, {}]);
-            }
+                item.ellipsis = item.ellipsis === undefined ? true : item.ellipsis;
+                item.width = width;
+                item.minWidth = minWidth;
+                item.maxWidth = maxWidth;
+                item.onHeaderCell = (column: any) => {
+                    //传给Cell的属性，再次从column取值一次，声明为局部变量，为了保持实时更新
+                    const { width, minWidth, maxWidth } = column;
+                    return {
+                        resizable,
+                        width,
+                        minWidth,
+                        maxWidth: resizableFit ? maxWidth : 2000,
+                        disabled: resizableFit && colWidths.length === index + 1,
+                        index,
+                        sysTableRef,
+                        handleCursorRef,
+                        onResize: (index: number, width: number) => {
+                            onCellResize(index, width, deepestCols);
+                        },
+                    };
+                };
+                //列排序
+                item.sorter = handleSort(sort, item);
+            });
+            setResizableCols([...innerColumns, {}]);
         }
     }, [innerColumns, tableWidth]);
+
+    function onCellResize(index: number, width: number, rCols: any[]) {
+        let newColWidths: number[];
+        if (resizableFit) {
+            const deltaWidth = rCols[index].width - width;
+            newColWidths = rCols.map((item, i) => {
+                const itemWidth = item.width;
+                if (i === index) {
+                    return width;
+                }
+                if (i === index + 1) {
+                    return itemWidth + deltaWidth;
+                }
+                return itemWidth;
+            });
+            const newColWidthMap: Record<string, number> = {};
+            rCols.forEach((item, i) => {
+                item.width = newColWidths[i];
+                newColWidthMap[item.dataIndex as string] = item.width;
+                const nextWidth = i + 1 < newColWidths.length ? newColWidths[i + 1] : 0;
+                item.maxWidth = newColWidths[i] + nextWidth;
+            });
+            dataRef.current.newColWidths = newColWidths;
+            dataRef.current.newColWidthMap = newColWidthMap;
+        } else {
+            rCols[index].width = width;
+            newColWidths = rCols.map((item) => item.width);
+        }
+        dataRef.current.newColWidths = newColWidths;
+        setResizableCols([...(innerColumns || []), {}]);
+    }
 
     const onChange: HanldeColTableProps['onChange'] = (page, filters, sorter) => {
         //列排序回调
@@ -208,20 +215,46 @@ function HanldeColTable({
             const { field, order } = sorter;
             onSortChange?.(field as string, order as string);
         }
-        //列过滤
-        const filterValues = Object.values(filters) as string[][];
-        if (filterValues && filterValues.length && columns) {
-            const filterDataIndexs = filterValues[filterValues.length - 1];
-            const filterColumns = columns.filter((item) => {
-                return filterDataIndexs.includes(item.dataIndex ? (item.dataIndex as string) : '');
-            });
-            if(!isEqual(innerColumns, filterColumns) ){
-                setInnerColumns(filterColumns);
-            }
-        }
     };
+
+    //列过滤
+    const filterItems = useMemo(() => {
+        return columns ? getDeepestTreeNode(columns) : [];
+    }, [columns]);
+    const [filterKeys, setFilterKeys] = useState<string[]>();
+    function onContextMenuFilter(e: React.MouseEvent) {
+        e.preventDefault();
+        const filterWin = show({
+            width: 200,
+            closable: false,
+            footer: null,
+            mask: false,
+            maskClosable: true,
+            content: (
+                <ColumnsFilterMenu
+                    items={filterItems}
+                    onChange={onChange}
+                    filterKeys={filterKeys}
+                />
+            ),
+            style: { position: 'absolute', left: e.clientX, top: e.clientY },
+        });
+        function onChange(keys: string[]) {
+            setFilterKeys(keys);
+            filterWin.close();
+            function columnsFilter(columns: HanldeColTableColumnType[]) {
+                return columns.filter((column) => {
+                    if (column.children) {
+                        column.children = columnsFilter(column.children);
+                    }
+                    return column.dataIndex ? keys.includes(column.dataIndex as string) : true;
+                });
+            }
+            setInnerColumns(columnsFilter(cloneDeep(columns) || []));
+        }
+    }
     return (
-        <ResizeObserver onResize={onResize}>
+        <ResizeObserver onResize={onTableWidthResize}>
             <BasicTable
                 ref={sysTableRef}
                 columns={resizableCols}
@@ -235,6 +268,12 @@ function HanldeColTable({
                 rowNumber={rowNumber}
                 onChange={onChange}
                 showSorterTooltip={false}
+                bordered={bordered}
+                onHeaderRow={(record) => {
+                    return {
+                        onContextMenu: filter ? onContextMenuFilter : undefined,
+                    };
+                }}
                 {...rest}
             />
         </ResizeObserver>
