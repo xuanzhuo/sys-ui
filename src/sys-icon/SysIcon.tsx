@@ -1,17 +1,11 @@
 import React from 'react';
 import { createFromIconfontCN } from '@ant-design/icons';
-
-export interface SysIconProps {
+export interface SysIconProps extends React.HTMLProps<HTMLSpanElement>{
     /**
      * @description 图标名称（iconfont项目中的图标名称(省略icon-)）
      * @default -
      */
     name?: string;
-    /**
-     * @description 点击事件
-     * @default -
-     */
-    onClick?: React.MouseEventHandler;
     /**
      * @description 是否有旋转动画
      * @default false
@@ -25,8 +19,8 @@ const scriptUrl = [
 
 const IconFont = createFromIconfontCN({ scriptUrl });
 
-const SysIcon: React.FC<SysIconProps> = ({ name, onClick, ...rest }) => {
-    return <IconFont type={`icon-${name}`} onClick={onClick} {...rest} />;
+const SysIcon: React.FC<SysIconProps> = ({ name, ...rest }) => {
+    return <IconFont type={`icon-${name}`} {...rest} />;
 };
 
 export default SysIcon;
