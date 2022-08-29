@@ -1,50 +1,58 @@
 import React, { useState } from 'react';
 import { Input, InputProps } from 'antd';
 
-interface SysInputNumberProps
-    extends Omit<InputProps, 'type' | 'min' | 'max' | 'minLength' | 'maxLength'> {
+export interface SysInputNumberProps extends Omit<InputProps, 'onChange'> {
+    value?: number;
+    onChange?: (value: number | string | undefined) => void;
     isFloat?: boolean;
-    value?: string;
-    onChange?: (e: any) => void;
-    onBlur?: (e: any) => void;
+    decimalLength?: number;
 }
 
-export default function SysNumber({
-    isFloat = false,
+const SysInputNumber = ({
     value,
     onChange,
+    isFloat,
     onBlur,
+    decimalLength = 6,
     ...rest
-}: SysInputNumberProps) {
-    let [val, setVal] = useState<string>(value as string);
-    function change(e: any) {
-        let input_value = e.target.value;
-        let reg = isFloat ? /^-?(\d{1}|[1-9]+\d+)?(\.\d*)?$/ : /^-?(\d{1}|[1-9]+\d+)?$/;
-        if (input_value === '' || reg.test(input_value)) {
-            onChange?.(input_value);
-            setVal(input_value);
+}: SysInputNumberProps) => {
+    const [number, setNumber] = useState<string>('');
+    const onNumberChange: InputProps['onChange'] = (e) => {
+        const newInput = e.target.value;
+        const pattern = isFloat ? /^-?(\d{1}|[1-9]+\d+)?(\.\d*)?$/ : /^-?(\d{1}|[1-9]+\d+)?$/;
+        if (pattern.test(newInput)) {
+            setNumber(newInput);
+            onChange?.(!isFloat ? Number(newInput) || undefined : newInput);
         } else {
-            setVal('');
+            setNumber(number);
         }
-    }
-    function changeFloat(e: any) {
-        let f_value = e.target.value;
-        if (f_value === '') {
-            return;
+    };
+
+    const changeFloat = (newInput: string) => {
+        if (!newInput) return;
+        let newNumber = Number(newInput);
+        let newNumberString = newInput;
+        const decimalLen = newInput.split('.')[1];
+        if (decimalLen && decimalLen.length >= decimalLength) {
+            newNumberString = newNumber.toFixed(decimalLength);
+        } else if (!decimalLen || decimalLen === '0') {
+            newNumberString = newNumber.toFixed(1);
         }
-        let newNumber: string | number = Number(f_value);
-        let d_array = f_value.split('.')[1];
-        if (d_array && d_array.length > 6) {
-            newNumber = newNumber.toFixed(6);
-        } else if (!d_array || d_array.length == 0) {
-            newNumber = newNumber.toFixed(1);
-        }
-        setVal(newNumber as string);
-        onChange?.(newNumber);
-    }
-    function blur(e: any) {
-        isFloat && changeFloat(e);
+        setNumber(newNumberString);
+        onChange?.(newNumberString);
+    };
+    const onBlurHandle: InputProps['onBlur'] = (e) => {
+        isFloat && changeFloat(e.target.value);
         onBlur?.(e);
-    }
-    return <Input type="text" value={val} onChange={change} onBlur={blur}></Input>;
-}
+    };
+    return (
+        <Input
+            type="text"
+            value={number}
+            onChange={onNumberChange}
+            onBlur={onBlurHandle}
+            {...rest}
+        />
+    );
+};
+export default SysInputNumber;
