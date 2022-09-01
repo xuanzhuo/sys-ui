@@ -10,6 +10,8 @@ export type { SysFormInstance } from './sys-form';
 export * as SysModal from './sys-modal';
 export { default as SysMenu } from './sys-menu';
 export { default as SysInput } from './sys-input';
+export { default as SysInputNumber } from './sys-input-number';
+export type { SysInputNumberProps } from './sys-input-number';
 export { default as SysSelect } from './sys-select';
 export { default as SysTreeSelect } from './sys-tree-select';
 export { default as SysCheckbox } from './sys-check-box';
