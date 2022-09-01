@@ -8,24 +8,38 @@ function toNum(percent: string) {
 
 /** 初始化列宽 */
 export function initColWidths(columns: HanldeColTableColumnType[], tWidth: number) {
-    return columns.map((item) => {
+    // 数字和百分比混用处理，百分比总宽度为除去数字宽度以外的宽度
+    let changedTWidth = tWidth;
+    return columns.map((item, index) => {
         let width = 1;
         if (typeof item.width === 'number') {
             width = item.width;
+            changedTWidth -= width;
         }
         if (typeof item.width === 'string') {
-            width = tWidth * toNum(item.width);
+            width = changedTWidth * toNum(item.width);
         }
         return width;
     });
 }
 
 /** 计算自适应列宽 */
-export function fitColWidths(colWidths: number[], tWidth: number) {
-    const totalWidth = colWidths.reduce((sum, item) => {
+export function fitColWidths(
+    colWidths: number[],
+    tWidth: number,
+    columns: HanldeColTableColumnType[],
+) {
+    const totalWidth = colWidths.reduce((sum, item, index) => {
+        if (columns[index].fixed) {
+            tWidth -= item;
+            return sum;
+        }
         return sum + item;
-    });
-    return colWidths.map((item) => {
+    }, 0);
+    return colWidths.map((item, index) => {
+        if (columns[index].fixed) {
+            return item;
+        }
         return (item / totalWidth) * tWidth;
     });
 }
@@ -50,13 +64,13 @@ export function fitFilterColWidths(
     resizeWidthMap: Record<string, number>,
     innerColumns: HanldeColTableColumnType[],
     tWidth: number,
-    origonColumns: HanldeColTableColumnType[],
+    originColumns: HanldeColTableColumnType[],
 ) {
     const filtedWidths = innerColumns.map((item, index) => {
         const itemWidth = resizeWidthMap[item.dataIndex as string]
             ? resizeWidthMap[item.dataIndex as string]
-            : initColWidths(origonColumns, tWidth)[index];
+            : initColWidths(originColumns, tWidth)[index];
         return itemWidth;
     });
-    return fitColWidths(filtedWidths, tWidth);
+    return fitColWidths(filtedWidths, tWidth, innerColumns);
 }

@@ -36,7 +36,7 @@ group:
 
 <code src="./demo/Pagination.tsx">
 
-## 拖动改变列宽
+## 拖动改变列宽及宽度自适应容器
 
 <code src="./demo/Resizable.tsx">
 

@@ -1,34 +1,36 @@
+import Left from '@/sys-two-column-layout/demo/Left';
 import React from 'react';
 
-import { SysTable, SysTableColumnType } from 'sys-ui';
+import { SysTable, SysTableColumnType, SysTwoColumnLayout } from 'sys-ui';
 import { createData } from './data';
 
 const columns: SysTableColumnType[] = [
     {
         title: '姓名',
         dataIndex: 'name',
-        width: '20%',
-        ellipsis:true
+        width: 50,
     },
     {
         title: '年龄',
         dataIndex: 'age',
-        width: '20%',
-        minWidth: 200,
-        ellipsis:true
+        width: '25%',
     },
     {
         title: '性别',
         dataIndex: 'sex',
-        width: '60%',
-        ellipsis:true
+        width: '75%',
     },
 ];
 const data = createData(10);
 function Resizable() {
     return (
         <div style={{ height: 300 }}>
-            <SysTable dataSource={data} columns={columns} resizable />
+            <SysTwoColumnLayout draggable>
+                {{
+                    left: <SysTable dataSource={data} columns={columns} resizable={false} />,
+                    right: <SysTable dataSource={data} columns={columns} />,
+                }}
+            </SysTwoColumnLayout>
         </div>
     );
 }

@@ -14,6 +14,11 @@ import { initColWidths, fitColWidths, handleSort, fitFilterColWidths } from './h
 
 export interface HanldeColTableColumnType extends BasicTableColumnType {
     /**
+     * @description 此列列宽是否可改变
+     * @default -
+     */
+    resizable?: boolean;
+    /**
      * @description 列最小宽度（拖动改变列列宽时使用）
      * @default -
      */
@@ -126,7 +131,6 @@ function HanldeColTable({
         if (innerColumns && tableWidth) {
             let colWidths: number[];
             if (dataRef.current.newColWidths) {
-                console.log(filter);
                 colWidths = dataRef.current.newColWidths;
                 if (filter && resizableFit) {
                     colWidths = fitFilterColWidths(
@@ -136,12 +140,16 @@ function HanldeColTable({
                         columns || [],
                     );
                 } else if (resizableFit) {
-                    colWidths = fitColWidths(dataRef.current.newColWidths, tableWidth);
+                    colWidths = fitColWidths(
+                        dataRef.current.newColWidths,
+                        tableWidth,
+                        innerColumns,
+                    );
                 }
             } else {
                 colWidths = initColWidths(deepestCols, tableWidth);
                 if (resizableFit) {
-                    colWidths = fitColWidths(colWidths, tableWidth);
+                    colWidths = fitColWidths(colWidths, tableWidth, deepestCols);
                 }
             }
             deepestCols.forEach((item, index) => {
@@ -156,9 +164,9 @@ function HanldeColTable({
                 item.maxWidth = maxWidth;
                 item.onHeaderCell = (column: any) => {
                     //传给Cell的属性，再次从column取值一次，声明为局部变量，为了保持实时更新
-                    const { width, minWidth, maxWidth } = column;
+                    const { width, minWidth, maxWidth, resizable: colResizable } = column;
                     return {
-                        resizable,
+                        resizable: colResizable ?? resizable,
                         width,
                         minWidth,
                         maxWidth: resizableFit ? maxWidth : 2000,

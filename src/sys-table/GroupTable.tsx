@@ -17,24 +17,25 @@ export type GroupTableColumnType = HanldeColTableColumnType;
 
 /** 处理分组列 */
 function handleGroupColumns(columns: GroupTableColumnType[], groupFiled: string) {
-    const groupColumns = columns.map((column, index) => {
+    const groupColumns = columns.map((column, columnIndex) => {
+        const { render: cellRender, ...rest } = column;
         const nColumn: GroupTableColumnType = {
-            render: (value, record) => {
-                if (record.children && index === 0) {
+            render: (value, record, index) => {
+                if (record.children && columnIndex === 0) {
                     return record[groupFiled];
                 }
-                return value;
+                return cellRender?.(value, record, index) || value;
             },
             onCell: (record) => {
                 if (record.children) {
-                    if (index === 0) {
+                    if (columnIndex === 0) {
                         return { colSpan: columns.length };
                     }
                     return { colSpan: 0 };
                 }
                 return {};
             },
-            ...column,
+            ...rest,
         };
 
         return nColumn;
@@ -42,7 +43,7 @@ function handleGroupColumns(columns: GroupTableColumnType[], groupFiled: string)
     return groupColumns;
 }
 
-function GroupTable({ group, dataSource, columns, rowKey, expandable,...rest }: GroupTableProps) {
+function GroupTable({ group, dataSource, columns, rowKey, expandable, ...rest }: GroupTableProps) {
     const data = useMemo(() => {
         if (group && dataSource) {
             const { groupFiled, groupTitleFormat } = group;
@@ -69,7 +70,7 @@ function GroupTable({ group, dataSource, columns, rowKey, expandable,...rest }: 
             columns={group ? cols : columns}
             single
             expandable={{
-                indentSize:0,
+                indentSize: 0,
                 expandIcon: ({ expanded, onExpand, record, expandable, prefixCls }) => {
                     return (
                         <span className="expand-icon">
@@ -82,7 +83,7 @@ function GroupTable({ group, dataSource, columns, rowKey, expandable,...rest }: 
                         </span>
                     );
                 },
-                ...expandable
+                ...expandable,
             }}
             {...rest}
         />
